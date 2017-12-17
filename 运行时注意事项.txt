@@ -1,0 +1,2 @@
+1、注意csv文件编码格式 不知道时用模板
+2、编译ios的命令行： lime build ios -Dsource-header=0   
