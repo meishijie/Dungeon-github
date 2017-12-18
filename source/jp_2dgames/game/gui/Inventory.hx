@@ -657,8 +657,8 @@ public static var _invBG:FlxSprite;
 
     // 足下アイテムの処理
     if(b) {
-      trace('ok');
-          PlayState.hudCam.alpha = 0.5;
+          this.revive();
+          // PlayState.hudCam.alpha = 0.5;
           // 所持アイテムから表示する
           _menumode = MenuMode.Carry;
 
@@ -689,7 +689,8 @@ public static var _invBG:FlxSprite;
           Snd.playSe("menu");
     }else {
       //关闭菜单
-      PlayState.hudCam.alpha = 0;
+      this.kill();
+      // PlayState.hudCam.alpha = 0;
       // 通常表示に戻しておく
       _menumode = MenuMode.Carry;
       _execMode = EXECMODE_NORMAL;
@@ -701,7 +702,8 @@ public static var _invBG:FlxSprite;
 
     if(b) {
       //打开菜单
-      PlayState.hudCam.alpha = 0.5;
+      this.revive();
+      // PlayState.hudCam.alpha = 0.5;
       var page = _pageMax;
       if(_feetItem != null) {
         // 足下にアイテムがあればページ数+1
@@ -718,7 +720,8 @@ public static var _invBG:FlxSprite;
     }
     else {
       //关闭菜单
-      PlayState.hudCam.alpha = 0;
+      this.kill();
+      // PlayState.hudCam.alpha = 0;
       // ページ切り替えカーソル非表示
       _setDispPageArrow(false);
     }
@@ -988,7 +991,8 @@ public static var _invBG:FlxSprite;
     }
 
     if(_execMode == EXECMODE_SELL) {
-      PlayState.hudCam.alpha = 0.5;
+      this.revive();
+      // PlayState.hudCam.alpha = 0.5;
       // 売却モード時のみページ切り替えカーソルチェック 出售页面时只显示光标
       var page = _pageMax;
       if(isEmpty()) {

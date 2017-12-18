@@ -24,7 +24,6 @@ import flixel.math.FlxRandom;
 import jp_2dgames.game.particle.ParticleMessage;
 import jp_2dgames.game.particle.ParticleRecovery;
 import flixel.math.FlxPoint;
-import flixel.util.FlxColor;
 import flixel.text.FlxText;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.particle.ParticleDamage;
@@ -420,27 +419,31 @@ class PlayState extends FlxState {
     // 物品生成
     var inventory = new Inventory();
     this.add(inventory);
+    
 	//物品镜头
     hudCam = new FlxCamera(100, 50, 500, 300);
-		hudCam.zoom = 1.5; // For 1/2 zoom out.
+		hudCam.zoom = 1; // For 1/2 zoom out.
 		hudCam.follow(Inventory._invBG);
 		hudCam.targetOffset.y = 100;
-		hudCam.alpha = 0;
+		hudCam.alpha = 1;
+    hudCam.useBgAlphaBlending = true;
+    hudCam.bgColor = FlxColor.TRANSPARENT;
     FlxG.camera.antialiasing = false;
+    FlxG.camera.useBgAlphaBlending = true;
+
 		FlxG.cameras.add(hudCam);
     
     Inventory.instance = inventory;
     inventory.setGuiStatus(_guistatus);
-	inventory.camera = hudCam;
-    // アイテムデータ設定
+	  inventory.camera = hudCam;
+    // アイテムデータ設定 物品数据设置
     Global.setItemList();
+    inventory.kill();
 	
-	
-	
-    // シーケンス管理
+    // シーケンス管理 程序总管理器
     _seq = new SeqMgr(this, _csv);
 
-    // アンロック管理
+    // アンロック管理 解锁信息管理
     this.add(UnlockMgr.createInstance());
 
     // デバッグ情報設定

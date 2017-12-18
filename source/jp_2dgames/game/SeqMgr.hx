@@ -562,7 +562,7 @@ class SeqMgr {
         _change(State.NextFloorWait);
 
       case State.ShopOpen:
-        // ■ショップメニュー表示
+        // ■ショップメニュー表示 商店菜单显示 打开商店菜单
         var msg = UIText.getText(UIText.MENU_SHOP_MSG);
         var cmd1 = UIText.getText(UIText.MENU_SHOP_BUY);
         var cmd2 = UIText.getText(UIText.MENU_SHOP_SELL);
@@ -571,7 +571,7 @@ class SeqMgr {
         _change(State.ShopRoot);
 
       case State.ShopRoot:
-        // ■ショップルートメニュー
+        // ■ショップルートメニュー 商店菜单路径
         if(Dialog.isClosed()) {
           switch(Dialog.getCursor()) {
             case 0:
