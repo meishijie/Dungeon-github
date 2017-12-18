@@ -828,8 +828,8 @@ class DefaultAssetLibrary extends AssetLibrary {
 		type.set ("assets/images/monster/vampire.png", AssetType.IMAGE);
 		className.set ("assets/images/player.png", __ASSET__assets_images_player_png);
 		type.set ("assets/images/player.png", AssetType.IMAGE);
-		className.set ("assets/没有问题的文档编码/item_consumable.csv", __ASSET__assets_____________________________item_consumable_csv);
-		type.set ("assets/没有问题的文档编码/item_consumable.csv", AssetType.TEXT);
+		className.set ("assets/TemplateCSV/item_consumable.csv", __ASSET__assets_templatecsv_item_consumable_csv);
+		type.set ("assets/TemplateCSV/item_consumable.csv", AssetType.TEXT);
 		className.set ("assets/font/fangzhengxiangsu14.ttf", __ASSET__assets_font_fangzhengxiangsu14_ttf);
 		type.set ("assets/font/fangzhengxiangsu14.ttf", AssetType.FONT);
 		className.set ("assets/font/pixel.ttf", __ASSET__assets_font_pixel_ttf);
@@ -1985,7 +1985,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 		path.set (id, id);
 		
 		type.set (id, AssetType.IMAGE);
-		id = "assets/没有问题的文档编码/item_consumable.csv";
+		id = "assets/TemplateCSV/item_consumable.csv";
 		path.set (id, id);
 		
 		type.set (id, AssetType.TEXT);
@@ -3327,8 +3327,8 @@ class DefaultAssetLibrary extends AssetLibrary {
 		className.set ("assets/images/player.png", __ASSET__assets_images_player_png);
 		type.set ("assets/images/player.png", AssetType.IMAGE);
 		
-		className.set ("assets/没有问题的文档编码/item_consumable.csv", __ASSET__assets_____________________________item_consumable_csv);
-		type.set ("assets/没有问题的文档编码/item_consumable.csv", AssetType.TEXT);
+		className.set ("assets/TemplateCSV/item_consumable.csv", __ASSET__assets_templatecsv_item_consumable_csv);
+		type.set ("assets/TemplateCSV/item_consumable.csv", AssetType.TEXT);
 		
 		className.set ("assets/font/fangzhengxiangsu14.ttf", __ASSET__assets_font_fangzhengxiangsu14_ttf);
 		type.set ("assets/font/fangzhengxiangsu14.ttf", AssetType.FONT);
@@ -4719,7 +4719,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:keep @:bind #if display private #end class __ASSET__assets_images_monster_dark_elf3_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_images_monster_vampire_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_images_player_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
-@:keep @:bind #if display private #end class __ASSET__assets_____________________________item_consumable_csv extends flash.utils.ByteArray { }
+@:keep @:bind #if display private #end class __ASSET__assets_templatecsv_item_consumable_csv extends flash.utils.ByteArray { }
 @:keep @:bind #if display private #end class __ASSET__assets_font_fangzhengxiangsu14_ttf extends flash.text.Font { }
 @:keep @:bind #if display private #end class __ASSET__assets_font_pixel_ttf extends flash.text.Font { }
 @:keep @:bind #if display private #end class __ASSET__assets_font_font16x16_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
@@ -5492,7 +5492,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:image("assets/images/monster/dark_elf3.png") #if display private #end class __ASSET__assets_images_monster_dark_elf3_png extends lime.graphics.Image {}
 @:image("assets/images/monster/vampire.png") #if display private #end class __ASSET__assets_images_monster_vampire_png extends lime.graphics.Image {}
 @:image("assets/images/player.png") #if display private #end class __ASSET__assets_images_player_png extends lime.graphics.Image {}
-@:file("assets/没有问题的文档编码/item_consumable.csv") #if display private #end class __ASSET__assets_____________________________item_consumable_csv extends lime.utils.Bytes {}
+@:file("assets/TemplateCSV/item_consumable.csv") #if display private #end class __ASSET__assets_templatecsv_item_consumable_csv extends lime.utils.Bytes {}
 @:font("assets/font/fangzhengxiangsu14.ttf") #if display private #end class __ASSET__assets_font_fangzhengxiangsu14_ttf extends lime.text.Font {}
 @:font("assets/font/pixel.ttf") #if display private #end class __ASSET__assets_font_pixel_ttf extends lime.text.Font {}
 @:image("assets/font/font16x16.png") #if display private #end class __ASSET__assets_font_font16x16_png extends lime.graphics.Image {}

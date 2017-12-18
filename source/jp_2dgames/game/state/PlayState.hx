@@ -54,16 +54,15 @@ import flixel.FlxCamera;
  *  
  **/
 private enum State {
-  FloorStart;   // フロア開始演出
-  FloorStart2;  // フロア開始演出2
-  Main;         // メイン処理
+  FloorStart;   // フロア開始演出楼层开始演出
+  FloorStart2;  // フロア開始演出2楼层开始演出
+  Main;         // メイン処理主处理
   GameoverWait; // ゲームオーバー待ち時間 游戏结束等待
   Gameover;     // ゲームオーバー 游戏结束
   Gameclear;    // ゲームクリア 游戏通关
   End;          // 終了
 }
 
-/* TODO: 翻译整片日文 Finish */
 /**
  * メインゲーム 主游戏
  */

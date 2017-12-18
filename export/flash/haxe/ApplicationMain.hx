@@ -814,7 +814,7 @@ class ApplicationMain {
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
-		urls.push ("assets/没有问题的文档编码/item_consumable.csv");
+		urls.push ("assets/TemplateCSV/item_consumable.csv");
 		types.push (lime.Assets.AssetType.TEXT);
 		
 		
@@ -1611,7 +1611,7 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "70",
+			build: "106",
 			company: "HaxeFlixel",
 			file: "RogueLike",
 			fps: 60,
