@@ -17,6 +17,11 @@ import flixel.text.FlxText;
 import flixel.group.FlxGroup;
 import flixel.FlxBasic;
 import flash.Lib;
+import openfl.text.TextField;
+import openfl.text.TextFormat;
+import openfl.text.TextFormatAlign;
+import openfl.display.Bitmap;
+import openfl.display.Sprite;
 /**
  * 主角信息生命等显示
  **/
@@ -82,7 +87,7 @@ class GuiStatus extends FlxGroup {
   // ステータスGUI
   private var _group:FlxSpriteGroup;
   private var _groupOfsY:Float = 0;
-  private var _bgStatus:FlxSprite;
+  // private var _bgStatus:FlxSprite;
   private var _txtLv:FlxText;
   private var _txtFloor:FlxText;
   private var _txtHp:FlxText;
@@ -115,28 +120,45 @@ class GuiStatus extends FlxGroup {
 
   //
   private var _stageW = Lib.current.stage.stageWidth;
+
+  private var _txtFloor1:TextField;
+  private var _bgStatus:Sprite;
   //
   /**
 	 * 角色信息ui
 	 **/
+  //**TODO: 所有UI都放到openfl里面显示 (doing)**/
   public function new() {
     super();
 
-    _groupOfsY = -BG_H;
+    _groupOfsY = -BG_H; 
     _group = new FlxSpriteGroup();
 
     // 背景
     // _bgStatus = new FlxSprite(0, 0).makeGraphic(BG_W, BG_H, FlxColor.WHITE);
-    _bgStatus = new FlxSprite(0, 0).makeGraphic(_stageW, BG_H, FlxColor.WHITE);
-    _bgStatus.color = FlxColor.BLACK;
-    _bgStatus.alpha = 0.7;
-    _group.add(_bgStatus);
+    // _bgStatus = new FlxSprite(0, 0).makeGraphic(_stageW, BG_H, FlxColor.WHITE);
+    // _bgStatus.color = FlxColor.BLACK;
+    // _bgStatus.alpha = 1;
+    // _bgStatus.x -= 32;
+    // _bgStatus.y -= 32;
+    // _group.add(_bgStatus);
+    _bgStatus = new Sprite();
+    _bgStatus.graphics.beginFill (0x000000, 0.4);
+		_bgStatus.graphics.drawRect (0, 0, _stageW, 32);
+    FlxG.addChildBelowMouse(_bgStatus);
 
-    // フロアテキスト 楼层文本
-    _txtFloor = new FlxText(FLOORTEXT_X, FLOORTEXT_Y, 128);
-    _txtFloor.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE_S);
-    _group.add(_txtFloor);
-
+    // フロアテキスト 楼层文本 使用openfl文本 FlxG.addChildBelowMouse()
+    // _txtFloor = new FlxText(FLOORTEXT_X, FLOORTEXT_Y, 128);
+    // _txtFloor.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE_S);
+    // _group.add(_txtFloor);
+    _txtFloor1 = new TextField();
+    _txtFloor1.text = 'openfl的文字';
+    var scoreFormat:TextFormat = new TextFormat("Verdana", 24, 0xFFFFFF, true);
+		scoreFormat.align = TextFormatAlign.CENTER;
+    _txtFloor1.width = 100;
+		_txtFloor1.defaultTextFormat = scoreFormat;
+		_txtFloor1.selectable = false;
+    FlxG.addChildBelowMouse(_txtFloor1);
     // レベルテキスト 等级文本
     _txtLv = new FlxText(LVTEXT_X, LVTEXT_Y, 128);
     _txtLv.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE_S);
@@ -186,7 +208,7 @@ class GuiStatus extends FlxGroup {
     _nightmareInfo = new GuiNightmare();
     this.add(_nightmareInfo);
 
-    // ■ヘルプ
+    // ■ヘルプ菜单
     _help = new FlxSpriteGroup();
     // ヘルプ座標(Y)
     _helpY = FlxG.height - HELP_DY;
@@ -199,14 +221,15 @@ class GuiStatus extends FlxGroup {
     _txtHelp = new FlxText(HELP_X, 0, 640);
     _txtHelp.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE_S);
     _help.add(_txtHelp);
-    //this.add(_help);
+    this.add(_help);
 
     // ヘルプテキスト設定
     changeHelp(HELP_KEYINPUT);
     //背包设置镜头
     _group.forEach(function(spr:FlxSprite){
       spr.scrollFactor.set(0, 0);
-      spr.camera = PlayState.hudCam;
+      // spr.camera = PlayState.hudCam;
+      spr.camera = FlxG.camera;
     });
 	
 }
@@ -221,7 +244,7 @@ override public function update(elapsed:Float):Void
 
     // フロア数
     var floor = Global.getFloor();
-    _txtFloor.text = '${floor}F';
+    _txtFloor1.text = '${floor}F';
 
     var player = cast(FlxG.state, PlayState).player;
     var lv = player.params.lv;
@@ -289,13 +312,13 @@ override public function update(elapsed:Float):Void
         _tDanger++;
         var step = Std.int(Math.sin(FlxAngle.TO_RAD * (_tDanger%180)) * 100);
         var color = FlxColor.interpolate(MyColor.MESSAGE_WINDOW, FlxColor.BROWN, 100);
-        _bgStatus.color = color;
+        // _bgStatus = color;
         _bgHelp.color = color;
         Message.setWindowColor(color);
       }
       else {
         _txtHp.color = FlxColor.WHITE;
-        _bgStatus.color = FlxColor.BLACK;
+        // _bgStatus.color = FlxColor.BLACK;
         _bgHelp.color = FlxColor.BLACK;
         Message.setWindowColor(MyColor.MESSAGE_WINDOW);
       }
@@ -375,7 +398,7 @@ override public function update(elapsed:Float):Void
 	
     _help.y = FlxG.height;
 
-    // アニメーション開始
+    // アニメーション開始 动画开始
     _helpOfsY = HELP_DY*1.5;
   }
 }

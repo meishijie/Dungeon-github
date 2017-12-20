@@ -422,7 +422,7 @@ class PlayState extends FlxState {
     // 物品生成
     var inventory = new Inventory();
     this.add(inventory);
-    var camBg = new FlxSprite(-FlxG.width*2,0);
+    var camBg = new FlxSprite(-FlxG.width*2 -64,-32);
     add(camBg);
     //镜头管理
     FlxG.camera.antialiasing = false;
