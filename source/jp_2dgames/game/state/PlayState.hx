@@ -422,7 +422,6 @@ class PlayState extends FlxState {
     // 物品生成
     var inventory = new Inventory();
     this.add(inventory);
-<<<<<<< HEAD
     var camBg = new FlxSprite(-FlxG.width*2,0);
     add(camBg);
     //镜头管理
@@ -435,29 +434,11 @@ class PlayState extends FlxState {
 		hudCam.alpha = 1;
     hudCam.useBgAlphaBlending = true;
     hudCam.bgColor = FlxColor.TRANSPARENT;
-=======
-    
-	//物品镜头
-    hudCam = new FlxCamera(100, 50, 500, 300);
-		hudCam.zoom = 1; // For 1/2 zoom out.
-		hudCam.follow(Inventory._invBG);
-		hudCam.targetOffset.y = 100;
-		hudCam.alpha = 1;
-    hudCam.useBgAlphaBlending = true;
-    hudCam.bgColor = FlxColor.TRANSPARENT;
-    FlxG.camera.antialiasing = false;
-    FlxG.camera.useBgAlphaBlending = true;
-
->>>>>>> acb9fafb98f6a69a8e5e5e4a512af25f2915a998
 		FlxG.cameras.add(hudCam);
     
     Inventory.instance = inventory;
     inventory.setGuiStatus(_guistatus);
-<<<<<<< HEAD
 	  
-=======
-	  inventory.camera = hudCam;
->>>>>>> acb9fafb98f6a69a8e5e5e4a512af25f2915a998
     // アイテムデータ設定 物品数据设置
     Global.setItemList();
     inventory.kill();
