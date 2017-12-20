@@ -529,7 +529,7 @@ override public function update(elapsed:Float):Void
   }
 
   /**
-   * コマンドの登録
+   * コマンドの登録 注册命令
    **/
   private function _registCommand():Void {
     _cmdTbl = [
@@ -559,7 +559,7 @@ override public function update(elapsed:Float):Void
   }
 
   /**
-   * *.tmxファイルをもとに背景画像を作成
+   * *.tmxファイルをもとに背景画像を作成 点tmx文件为基础制作背景图像
    **/
   private function _createBackground(tmx:TmxLoader) {
     var w = tmx.width * tmx.tileWidth;
@@ -570,11 +570,11 @@ override public function update(elapsed:Float):Void
     var rect = new Rectangle();
     for(idx in 0...tmx.getLayerCount()) {
       if(idx >= 2) {
-        // idx=2はコリジョンレイヤー
+        // idx=2はコリジョンレイヤー idx = 2是碰撞图层
         break;
       }
 
-      // レイヤー情報を元に背景画像を作成
+      // レイヤー情報を元に背景画像を作成 以图层信息为原的背景图像
       var layer = tmx.getLayer(idx);
       layer.forEach(function(i, j, v) {
         if(v > 0) {

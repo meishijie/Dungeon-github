@@ -21,7 +21,6 @@
 -D native
 -D openfl-native
 -D lime-native
--D fdb
 -D windows
 -D desktop
 --remap flash:openfl

@@ -16,6 +16,7 @@ import flixel.ui.FlxBar;
 import flixel.text.FlxText;
 import flixel.group.FlxGroup;
 import flixel.FlxBasic;
+import flash.Lib;
 /**
  * 主角信息生命等显示
  **/
@@ -32,7 +33,7 @@ class GuiStatus extends FlxGroup {
   public static inline var HELP_SHOP_SELL:Int = 5; // ショップ・売却
   public static inline var HELP_SHOP_BUY:Int = 6; // ショップ・購入
 
-  // ステータス表示座標
+  // ステータス表示座標状态显示坐标
   private static inline var POS_X = 640 + 8;
   private static inline var POS_Y = 4;
 
@@ -47,7 +48,7 @@ class GuiStatus extends FlxGroup {
   private static inline var BAR_H = 4;
 
   // フロア数
-  private static inline var FLOORTEXT_X = 24;
+  private static inline var FLOORTEXT_X = 0;
   private static inline var FLOORTEXT_Y = 0;
   // レベルテキスト
   private static inline var LVTEXT_X = FLOORTEXT_X + 32;
@@ -112,8 +113,11 @@ class GuiStatus extends FlxGroup {
     return _helpMode;
   }
 
+  //
+  private var _stageW = Lib.current.stage.stageWidth;
+  //
   /**
-	 * コンストラクタ
+	 * 角色信息ui
 	 **/
   public function new() {
     super();
@@ -122,17 +126,18 @@ class GuiStatus extends FlxGroup {
     _group = new FlxSpriteGroup();
 
     // 背景
-    _bgStatus = new FlxSprite(0, 0).makeGraphic(BG_W, BG_H, FlxColor.WHITE);
+    // _bgStatus = new FlxSprite(0, 0).makeGraphic(BG_W, BG_H, FlxColor.WHITE);
+    _bgStatus = new FlxSprite(0, 0).makeGraphic(_stageW, BG_H, FlxColor.WHITE);
     _bgStatus.color = FlxColor.BLACK;
     _bgStatus.alpha = 0.7;
     _group.add(_bgStatus);
 
-    // フロアテキスト
+    // フロアテキスト 楼层文本
     _txtFloor = new FlxText(FLOORTEXT_X, FLOORTEXT_Y, 128);
     _txtFloor.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE_S);
     _group.add(_txtFloor);
 
-    // レベルテキスト
+    // レベルテキスト 等级文本
     _txtLv = new FlxText(LVTEXT_X, LVTEXT_Y, 128);
     _txtLv.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE_S);
     _group.add(_txtLv);
@@ -198,11 +203,11 @@ class GuiStatus extends FlxGroup {
 
     // ヘルプテキスト設定
     changeHelp(HELP_KEYINPUT);
-	
-	_group.forEach(function(spr:FlxSprite){
-		spr.scrollFactor.set(0, 0);
-		spr.camera = FlxG.camera;
-	});
+    //背包设置镜头
+    _group.forEach(function(spr:FlxSprite){
+      spr.scrollFactor.set(0, 0);
+      spr.camera = PlayState.hudCam;
+    });
 	
 }
 	

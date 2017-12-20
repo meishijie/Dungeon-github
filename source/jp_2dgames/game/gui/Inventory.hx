@@ -81,9 +81,10 @@ class Inventory extends FlxGroup {
   // 最大
   private static inline var ITEM_MAX_LAST:Int = 24;
 
-  // 背包系统位置
-  private static inline var POS_X = -500;
-  private static inline var POS_Y = 0;
+  // 背包系统位置 
+  //**TODO 位置需要设置为动态定位**/
+  private static var POS_X = -1200;
+  private static  var POS_Y = 0;
   // ウィンドウサイズ
   private static inline var WIDTH = 212 - 8 * 2;
   private static inline var HEIGHT = (DY * PAGE_DISP) + MSG_POS_Y + 8;//480 - 64 - 8 * 2;
@@ -104,17 +105,17 @@ class Inventory extends FlxGroup {
   private static inline var DETAIL_ITEM_Y = 0;
 
   // コマンドの座標
-  private static inline var CMD_X = POS_X - 80;
+  private static  var CMD_X = POS_X - 80;
   private static inline var CMD_Y = DETAIL_EQUIP_Y + 112;
 
   // ページ数テキストの座標
-  private static inline var PAGE_X = POS_X + 24;
-  private static inline var PAGE_Y = POS_Y + 4;
+  private static  var PAGE_X = POS_X + 24;
+  private static  var PAGE_Y = POS_Y + 4;
 
   // ページ切り替え矢印の座標
-  private static inline var ARROW_L_POS_X = POS_X + 4;
-  private static inline var ARROW_R_POS_X = POS_X + 128;
-  private static inline var ARROW_POS_Y = PAGE_Y + 6;
+  private static  var ARROW_L_POS_X = POS_X + 4;
+  private static  var ARROW_R_POS_X = POS_X + 128;
+  private static  var ARROW_POS_Y = PAGE_Y + 6;
 
   // アイテム枠座標オフセット
   private static inline var LIST_POS_Y = 32;
@@ -492,7 +493,13 @@ public static var _invBG:FlxSprite;
    **/
   public function new() {
     super();
-
+    POS_X = -FlxG.width*2;
+    CMD_X = POS_X - 80;
+    PAGE_X = POS_X + 24;
+    ARROW_L_POS_X = POS_X + 4;
+    ARROW_R_POS_X = POS_X + 128;
+    // 基準座標
+    x = POS_X; // X座標
     _invBG = new FlxSprite(x, y, "assets/images/ui/listitem.png");
     _invBG.alpha = 0.01;
     this.add(_invBG);
@@ -657,8 +664,8 @@ public static var _invBG:FlxSprite;
 
     // 足下アイテムの処理
     if(b) {
-      trace('ok');
-          PlayState.hudCam.alpha = 0.5;
+          this.revive();
+          // PlayState.hudCam.alpha = 0.5;
           // 所持アイテムから表示する
           _menumode = MenuMode.Carry;
 
@@ -689,7 +696,8 @@ public static var _invBG:FlxSprite;
           Snd.playSe("menu");
     }else {
       //关闭菜单
-      PlayState.hudCam.alpha = 0;
+      this.kill();
+      // PlayState.hudCam.alpha = 0;
       // 通常表示に戻しておく
       _menumode = MenuMode.Carry;
       _execMode = EXECMODE_NORMAL;
@@ -701,7 +709,8 @@ public static var _invBG:FlxSprite;
 
     if(b) {
       //打开菜单
-      PlayState.hudCam.alpha = 0.5;
+      this.revive();
+      // PlayState.hudCam.alpha = 0.5;
       var page = _pageMax;
       if(_feetItem != null) {
         // 足下にアイテムがあればページ数+1
@@ -718,7 +727,8 @@ public static var _invBG:FlxSprite;
     }
     else {
       //关闭菜单
-      PlayState.hudCam.alpha = 0;
+      this.kill();
+      // PlayState.hudCam.alpha = 0;
       // ページ切り替えカーソル非表示
       _setDispPageArrow(false);
     }
@@ -988,7 +998,8 @@ public static var _invBG:FlxSprite;
     }
 
     if(_execMode == EXECMODE_SELL) {
-      PlayState.hudCam.alpha = 0.5;
+      this.revive();
+      // PlayState.hudCam.alpha = 0.5;
       // 売却モード時のみページ切り替えカーソルチェック 出售页面时只显示光标
       var page = _pageMax;
       if(isEmpty()) {

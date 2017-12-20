@@ -60,7 +60,7 @@ class StatisticsState extends FlxState {
     var px = TEXT_X;
     var py = TEXT_Y;
 
-    // トータル
+    // トータル 总计
     var playtime = TextUtil.secToHHMMSS(Std.int(dat.playtime));
     createFlxText(px, py, playtime);
     py += TEXT_DY;

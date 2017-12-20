@@ -7,12 +7,12 @@ import flash.events.Event;
 import flash.Lib;
 import flixel.FlxGame;
 import flixel.FlxState;
-
+import generate.GenerateState;
 class Main extends Sprite {
-  // 这个是home的文件 
-  var gameWidth:Int = 426 * 2; // Width of the game in pixels (might be less / more in actual pixels depending on your zoom).
-  var gameHeight:Int = 240 * 2; // Height of the game in pixels (might be less / more in actual pixels depending on your zoom).
-  var initialState:Class<FlxState> = BootState; // The FlxState the game starts with.
+  // 缩放大小
+  var gameWidth:Int = 600  ; // 426 * 2 Width of the game in pixels (might be less / more in actual pixels depending on your zoom).
+  var gameHeight:Int = 360 ; //240 * 2 Height of the game in pixels (might be less / more in actual pixels depending on your zoom).
+  var initialState:Class<FlxState> = BootState; //BootState The FlxState the game starts with.
   var zoom:Float = -1; // If -1, zoom is automatically calculated to fit the window dimensions.
   var framerate:Int = 60; // How many frames per second the game should run at.
   var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.

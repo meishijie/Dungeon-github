@@ -21,7 +21,7 @@ class PlayState extends FlxState
 		
 		map = new FlxTilemap();
 		var csvData:String = FlxStringUtil.bitmapToCSV(GenerateState.mapData);
-		
+		trace(csvData);
 		map.loadMapFromCSV(csvData, "assets/images/tiles.png", TILE_SIZE, TILE_SIZE, AUTO);
 		add(map);
 		
@@ -44,7 +44,7 @@ class PlayState extends FlxState
 		FlxG.collide(player, map);
 		
 		//解析经过时间
-		trace(DateTools.parse(Date.now().getTime() - _time));
+		// trace(DateTools.parse(Date.now().getTime() - _time));
 		
 		if (FlxG.keys.justReleased.SPACE)
 		{

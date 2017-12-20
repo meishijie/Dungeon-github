@@ -29,22 +29,22 @@ import jp_2dgames.lib.Layer2D;
  * フィールド管理 网格地图管理
  **/
 class Field {
-  // グリッドサイズ
+  // グリッドサイズ 网格尺寸
   public static inline var GRID_SIZE:Int = 32;
 
-  // チップの種類
+  // チップの種類 芯片类型
   public static inline var NONE:Int    = 0;  // 何もない
-  public static inline var PLAYER:Int  = 1;  // プレイヤー
-  public static inline var GOAL:Int    = 2;  // ゴール
+  public static inline var PLAYER:Int  = 1;  // プレイヤー 主角
+  public static inline var GOAL:Int    = 2;  // ゴール 下一关卡
   public static inline var WALL:Int    = 3;  // 壁
   public static inline var PASSAGE:Int = 4;  // 通路
-  public static inline var HINT:Int    = 5;  // ヒント
-  public static inline var SHOP:Int    = 6;  // お店
-  public static inline var WALL2:Int   = 7;  // 壁（飛び道具は通り抜け可能）
-  public static inline var SPIKE:Int   = 8;  // トゲ
-  public static inline var ENEMY:Int   = 9;  // ランダム敵
-  public static inline var ITEM:Int    = 10; // ランダムアイテム
-  public static inline var CAT:Int     = 11; // ネコ
+  public static inline var HINT:Int    = 5;  // ヒント 提示
+  public static inline var SHOP:Int    = 6;  // お店 商店
+  public static inline var WALL2:Int   = 7;  // 壁（飞行道具可以穿过）
+  public static inline var SPIKE:Int   = 8;  // トゲ 刺
+  public static inline var ENEMY:Int   = 9;  // ランダム敵 敌人
+  public static inline var ITEM:Int    = 10; // ランダムアイテム 物品
+  public static inline var CAT:Int     = 11; // ネコ 猫
   public static inline var HEART_RED:Int    = 13; // ハート(赤)
   public static inline var HEART_BLUE:Int   = 14; // ハート(青)
   public static inline var HEART_GREEN:Int  = 15; // ハート(緑)
@@ -53,7 +53,7 @@ class Field {
   public static inline var ONEWAY_UP:Int    = 18; // 一方通行(上)
   public static inline var ONEWAY_RIGHT:Int = 19; // 一方通行(右)
   public static inline var ONEWAY_DOWN:Int  = 20; // 一方通行(下)
-  public static inline var BLOCK:Int        = 21; // 壊せる壁
+  public static inline var BLOCK:Int        = 21; // 壊せる壁 易碎的墙壁
   public static inline var DOOR3:Int        = 22; // ドア(3)
   public static inline var DOOR5:Int        = 23; // ドア(5)
   public static inline var DOOR7:Int        = 24; // ドア(7)
@@ -127,10 +127,10 @@ class Field {
   public static function isCollision(i:Int, j:Int):Bool {
     switch(_cLayer.get(i, j)) {
       case WALL:
-        // コリジョン
+        // コリジョン 碰撞
         return true;
       case WALL2:
-        // 通り抜けできない
+        // 通り抜けできない 我无法通过
         return true;
       case BLOCK, DOOR3, DOOR5, DOOR7:
         // 通れない
@@ -139,30 +139,30 @@ class Field {
         // 画面外
         return true;
       default:
-        // コリジョンでない
+        // コリジョンでない 不碰撞
         return false;
     }
   }
 
-  // 指定した座標に移動できるかどうか
+  // 指定した座標に移動できるかどうか 是否可以移动到指定的坐标
   public static function isMove(i:Int, j:Int, extra:String, dir:Dir):Bool {
 
     if(extra == "passage") {
       if(isThroughFirearm(i, j) == false) {
-        // 移動できない
+        // 移動できない 不能移动
         return false;
       }
     }
     else {
       if(isCollision(i, j)) {
-        // 移動できない
+        // 移動できない不能移动
         return false;
       }
 
     }
 
     var v = _cLayer.get(i, j);
-    // 一方通行チェック
+    // 一方通行チェック 一种方法检查
     switch(v) {
       case ONEWAY_LEFT:
         if(dir == Dir.Right) {
@@ -187,7 +187,7 @@ class Field {
     return true;
   }
 
-  // 指定した座標が飛び道具が通り抜けできるかどうか
+  // 指定した座標が飛び道具が通り抜けできるかどうか 跳跃道具是否可以通过指定的坐标
   public static function isThroughFirearm(i:Int, j:Int):Bool {
     switch(_cLayer.get(i, j)) {
       case WALL:
@@ -201,14 +201,14 @@ class Field {
         return true;
     }
   }
-  // 指定の座標にあるチップを取得する
+  // 指定の座標にあるチップを取得する 获取指定坐标 
   public static function getChip(i:Int, j:Int):Int {
     var v = _cLayer.get(i, j);
     return v;
   }
 
   /**
-   * 複数あるチップを1つに絞る
+   * 複数あるチップを1つに絞る 挤多个芯片到一个
    **/
   private static function _randomNarrowOne(layer:Layer2D, v:Int) {
     var pt = layer.searchRandom(v);
@@ -220,16 +220,16 @@ class Field {
   }
 
   /**
-   * プレイヤーの位置や階段をランダムで配置する
-   * @param layer 地形レイヤー
-   * @param floor フロア数
+   * プレイヤーの位置や階段をランダムで配置する 随机安排主角的位置和楼梯
+   * @param layer 地形レイヤー地形层
+   * @param floor フロア数 层数
    * @param csv Csv管理
    **/
   public static function randomize(layer:Layer2D, floor:Int, csv:Csv) {
 
     // 乱数を初期化
-   // FlxRandom.currentSeed = flash.Lib.getTimer();
-	FlxG.random.currentSeed = flash.Lib.getTimer();
+    // FlxRandom.currentSeed = flash.Lib.getTimer();
+	  FlxG.random.currentSeed = flash.Lib.getTimer();
     // プレイヤーを配置
     _randomNarrowOne(layer, PLAYER);
     if(layer.exists(PLAYER) == false) {
@@ -293,7 +293,7 @@ class Field {
       }
     }
 
-    // 回復チップ配置
+    // 回復チップ配置回复芯片配置
     if(Global.getFloor() > 4) {
       if(FlxG.random.bool(30)) {
         var p = layer.searchRandom(NONE);
@@ -321,7 +321,7 @@ class Field {
     // チップ画像読み込み
     var chip = FlxG.bitmap.add("assets/levels/tileset.png");
     var none = FlxG.bitmap.add("assets/levels/tilenone.png");
-    // 透明なスプライトを作成
+    // 透明なスプライトを作成创造透明的sprite
     var col = FlxColor.BROWN;// FlxColor.TRANSPARENT;
     spr.makeGraphic(w, h, col);
     spr.pixels.fillRect(new Rectangle(0, 0, w, h), col);
@@ -366,7 +366,7 @@ class Field {
     layer.forEach(func);
     spr.dirty = true;
     //spr.updateFrameData();
-	spr.updateFramePixels();
+	  spr.updateFramePixels();
     // メンバ変数に保存
     _sprBack = spr;
 
@@ -374,14 +374,14 @@ class Field {
   }
 
   /**
-   * Waveスプライトを登録する
+   * Waveスプライトを登録する Wave雪碧注册
    **/
   public static function setWaveSprite(spr:FlxSprite):Void {
     _sprWave = spr;
   }
 
   /**
-   * 背景を暗くする
+   * 背景を暗くする背景背景
    **/
   public static function startFadeBackground():Void {
     _tweenColor = FlxTween.color(_sprWave, 5, FlxColor.WHITE, NIGHTMARE_COLOR, {ease:FlxEase.sineOut, onComplete:function(tween:FlxTween) {
@@ -411,7 +411,7 @@ class Field {
    * 指定の座標の背景を別のチップで塗りつぶす
    **/
   public static function drawBackgroundChip(chipid:Int, i:Int, j:Int):Void {
-    // 背景スプライトを保持
+    // 背景スプライトを保持 保持背景精灵
     var spr = _sprBack;
     // チップIDを保持
     var v = chipid;
@@ -421,13 +421,13 @@ class Field {
     // 床スプライトを作成
     var none = FlxG.bitmap.add("assets/levels/tilenone.png");
 
-    // 転送先の座標
+    // 転送先の座標 转移目的地坐标
     var pt = new Point();
     pt.x = i * GRID_SIZE;
     pt.y = j * GRID_SIZE;
-    // 転送領域の作成
+    // 転送領域の作成 创建领域的
     var rect = new Rectangle(0, 0, GRID_SIZE, GRID_SIZE);
-    // 床で塗りつぶす
+    // 床で塗りつぶす 地板上涂满
     {
       rect.left   = 0;
       rect.right  = rect.left + GRID_SIZE;
@@ -450,14 +450,14 @@ class Field {
         Pit.start(i, j);
     }
 
-    // レイヤーを走査する
+    // レイヤーを走査する 扫描图层
     spr.dirty = true;
     //spr.updateFrameData();
-	spr.updateFramePixels();
+	  spr.updateFramePixels();
   }
 
   /**
-   * マウス座標をチップ座標(X)で取得する
+   * マウス座標をチップ座標(X)で取得する 鼠标坐标用芯片坐标（X）取得
    **/
   public static function getMouseChipX():Int {
     return Std.int(Field.toChipX(FlxG.mouse.x + Field.GRID_SIZE/2));

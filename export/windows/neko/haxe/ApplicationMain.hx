@@ -57,8 +57,8 @@ class ApplicationMain {
 				
 				#if mobile
 				
-				forceWidth = 852;
-				forceHeight = 480;
+				forceWidth = 800;
+				forceHeight = 420;
 				
 				container = new flash.display.Sprite ();
 				barA = new flash.display.Sprite ();
@@ -127,7 +127,7 @@ class ApplicationMain {
 				}
 				
 			},
-			852, 480, 
+			800, 420, 
 			60, 
 			0,
 			(true ? flash.Lib.HARDWARE : 0) |
@@ -248,13 +248,13 @@ class ScaledStage extends flash.display.Stage {
 	
 	private override function get_stageHeight ():Int {
 		
-		return 480;
+		return 420;
 	
 	}
 	
 	private override function get_stageWidth ():Int {
 		
-		return 852;
+		return 800;
 	
 	}
 	
@@ -325,11 +325,11 @@ class ApplicationMain {
 		wx.App.boot (function () {
 			
 			
-			frame = wx.Frame.create (null, null, "FlixelRL", null, { width: 852, height: 480 });
+			frame = wx.Frame.create (null, null, "FlixelRL", null, { width: 800, height: 420 });
 			
 			
 			#if openfl
-			var stage = wx.NMEStage.create (frame, null, null, { width: 852, height: 480 });
+			var stage = wx.NMEStage.create (frame, null, null, { width: 800, height: 420 });
 			#end
 			
 			var hasMain = false;
@@ -515,7 +515,7 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "105",
+			build: "12",
 			company: "HaxeFlixel",
 			file: "RogueLike",
 			fps: 60,
@@ -533,13 +533,13 @@ class ApplicationMain {
 					display: 0,
 					fullscreen: false,
 					hardware: true,
-					height: 480,
+					height: 420,
 					parameters: "{}",
 					resizable: true,
 					stencilBuffer: false,
 					title: "FlixelRL",
 					vsync: true,
-					width: 852,
+					width: 800,
 					x: null,
 					y: null
 				},
@@ -549,7 +549,7 @@ class ApplicationMain {
 		
 		#if (js && html5)
 		#if (munit || utest)
-		openfl.Lib.embed (null, 852, 480, "null");
+		openfl.Lib.embed (null, 800, 420, "null");
 		#end
 		#else
 		create ();

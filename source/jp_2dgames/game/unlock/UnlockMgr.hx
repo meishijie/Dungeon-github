@@ -88,8 +88,11 @@ class UnlockMgr extends FlxSpriteGroup{
     _txt.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE_S);
     _txt.setBorderStyle( FlxTextBorderStyle.OUTLINE, FlxColor.BLUE);
     this.add(_txt);
-
-    // 非表示にしておく
+    this.forEach(function(spr:FlxSprite){
+      spr.scrollFactor.set(0, 0);
+      spr.camera = FlxG.camera;
+    });
+    // 生成时不显示
     this.visible = false;
   }
 
@@ -133,25 +136,21 @@ override public function update(elapsed:Float):Void
     // テキスト設定
     _txt.text = "Unlock: " + _getParam(idx, "name");
 
-    // アニメーション設定
+    // アニメーション設定 动画设定
     var px = FlxG.width - WIDTH - 4;
     var py = POS_Y;
     this.x = FlxG.width;
     this.y = py;
-	//FlxTween.tween(sprite, { x: 100, y: 200 }, 3.0, { ease: FlxEase.quadInOut, complete: myCallback });
-	
+    //FlxTween.tween(sprite, { x: 100, y: 200 }, 3.0, { ease: FlxEase.quadInOut, complete: myCallback });
     FlxTween.tween(this, {x:px}, 1, {ease:FlxEase.expoOut, onComplete:function(tween:FlxTween):Void {
-		
-      new FlxTimer().start(3, function(timer:FlxTimer) {
-        FlxTween.tween(this, {y:-48}, 0.5, {ease:FlxEase.quadInOut,onComplete:function(tween:FlxTween):Void {
-          this.visible = false;
-        }
-		
-		});
-		
-      });
-	  
-    }});
+          new FlxTimer().start(3, function(timer:FlxTimer) {
+                FlxTween.tween(this, {y:-48}, 0.5, {ease:FlxEase.quadInOut,onComplete:function(tween:FlxTween):Void {
+                  this.visible = false;
+                }
+              });
+          });
+      }
+    });
   }
 
   private function callbackFunction(Tween:FlxTween):Void

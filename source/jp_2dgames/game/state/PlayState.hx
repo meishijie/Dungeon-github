@@ -24,7 +24,6 @@ import flixel.math.FlxRandom;
 import jp_2dgames.game.particle.ParticleMessage;
 import jp_2dgames.game.particle.ParticleRecovery;
 import flixel.math.FlxPoint;
-import flixel.util.FlxColor;
 import flixel.text.FlxText;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.particle.ParticleDamage;
@@ -54,16 +53,15 @@ import flixel.FlxCamera;
  *  
  **/
 private enum State {
-  FloorStart;   // フロア開始演出
-  FloorStart2;  // フロア開始演出2
-  Main;         // メイン処理
+  FloorStart;   // フロア開始演出楼层开始演出
+  FloorStart2;  // フロア開始演出2楼层开始演出
+  Main;         // メイン処理主处理
   GameoverWait; // ゲームオーバー待ち時間 游戏结束等待
   Gameover;     // ゲームオーバー 游戏结束
   Gameclear;    // ゲームクリア 游戏通关
   End;          // 終了
 }
 
-/* TODO: 翻译整片日文 Finish */
 /**
  * メインゲーム 主游戏
  */
@@ -176,7 +174,7 @@ class PlayState extends FlxState {
       }
     }
 
-    // フロア開始演出スタート 楼层开始导演开始
+    // フロア開始演出スタート 当前层开始前的过场
     _txtFloor = new FlxText(FlxG.width/3, FlxG.height/2.5, 256, "", 48);
     _txtFloor.text = 'Floor ${Global.getFloor()}';
     _txtFloor.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.GREEN, 3);
@@ -211,12 +209,12 @@ class PlayState extends FlxState {
   private function _floorStart():Void {
     _state = State.FloorStart2;
 
-    // 暗転解除 删除文字
+    // 暗転解除 删除过场的内容
     this.remove(_txtFloor);
     for(spr in _sprStarts) {
       this.remove(spr);
     }
-    // インスタンス生成 实例生成
+    // インスタンス生成 正式游戏内容开始
     _start();
     FlxG.camera.fade(FlxColor.BLACK, 0.3, true, function() {
       // フェード終了 黑色屏幕结束
@@ -224,7 +222,10 @@ class PlayState extends FlxState {
     }, true);
   }
 
+  //** 正式游戏开始**/
   private function _start() {
+    //物品镜头
+    hudCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);
     // CSV読み込み csv读入
     _csv = new Csv();
     Enemy.csv = _csv.enemy;
@@ -421,27 +422,31 @@ class PlayState extends FlxState {
     // 物品生成
     var inventory = new Inventory();
     this.add(inventory);
-	//物品镜头
-    hudCam = new FlxCamera(100, 50, 500, 300);
-		hudCam.zoom = 1.5; // For 1/2 zoom out.
-		hudCam.follow(Inventory._invBG);
-		hudCam.targetOffset.y = 100;
-		hudCam.alpha = 0;
+    var camBg = new FlxSprite(-FlxG.width*2,0);
+    add(camBg);
+    //镜头管理
     FlxG.camera.antialiasing = false;
+	  
+		hudCam.zoom = 1; // For 1/2 zoom out.
+		hudCam.follow(camBg);
+		hudCam.targetOffset.x = 0;
+    hudCam.targetOffset.y = 0;
+		hudCam.alpha = 1;
+    hudCam.useBgAlphaBlending = true;
+    hudCam.bgColor = FlxColor.TRANSPARENT;
 		FlxG.cameras.add(hudCam);
     
     Inventory.instance = inventory;
     inventory.setGuiStatus(_guistatus);
-	inventory.camera = hudCam;
-    // アイテムデータ設定
+	  
+    // アイテムデータ設定 物品数据设置
     Global.setItemList();
+    inventory.kill();
 	
-	
-	
-    // シーケンス管理
+    // シーケンス管理 程序总管理器
     _seq = new SeqMgr(this, _csv);
 
-    // アンロック管理
+    // アンロック管理 解锁信息管理
     this.add(UnlockMgr.createInstance());
 
     // デバッグ情報設定
@@ -506,8 +511,8 @@ class PlayState extends FlxState {
     Field.createBackground(_lField, _back);
     //if(_wave == null) { //FlxWaveSprite 没有这个类
      // _wave = new FlxWaveSprite(_back, WaveMode.ALL, 0, -1, 0);
-      this.add(_back);
-      Field.setWaveSprite(_back);
+    this.add(_back);
+    Field.setWaveSprite(_back);//设置开幕效果
     //}
     Field.setCollisionLayer(_lField);
   }

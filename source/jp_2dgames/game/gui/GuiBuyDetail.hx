@@ -197,11 +197,11 @@ class GuiBuyDetail extends FlxSpriteGroup {
 
     _nCursor = 0;
 
-    // アイテム詳細
+    // アイテム詳細项目详细内容
     _detailItem = new GuiItemDetail(ITEMDETAIL_X, ITEMDETAIL_Y);
     this.add(_detailItem);
 
-    // 詳細ステータス
+    // 詳細ステータス详细情况
     _detailEquip = new GuiStatusDetail(DETAIL_EQUIP_X, DETAIL_EQUIP_Y);
     this.add(_detailEquip);
   }

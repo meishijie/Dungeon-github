@@ -10,6 +10,7 @@ import flixel.FlxG;
 import flixel.text.FlxText;
 import flixel.group.FlxGroup;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import jp_2dgames.game.state.PlayState;
 private enum State {
   Main;   // メイン
   Closed; // 閉じた
@@ -177,9 +178,9 @@ class Dialog extends FlxGroup {
     _group.add(_cursor);
     _group.forEach(function(spr:FlxSprite){
         spr.scrollFactor.set(0, 0);
-        spr.camera = FlxG.camera;
+        spr.camera = PlayState.hudCam;
     });
-    add(_group);
+    add(_group);     
     Snd.playSe("menu");
   }
 

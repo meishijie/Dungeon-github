@@ -4,12 +4,12 @@
   import flixel.math.FlxPoint;
   import flixel.FlxG;
   /**
-   * ２次元マップクラス 2维地图类
+   * ２次元マップクラス 2维数组类管理
    * @author syun
    */
 class Layer2D {
-  public var m_Default:Int = 0; // デフォルト値
-  public var m_OutOfRange:Int = -1; // 範囲外を指定した際のエラー値
+  public var m_Default:Int = 0; // デフォルト値 缺省值
+  public var m_OutOfRange:Int = -1; // 範囲外を指定した際のエラー値 指定范围时的错误值
   private var _width:Int;
   private var _height:Int;
   private var _pool:Map<Int,Int>;
@@ -97,7 +97,7 @@ class Layer2D {
   }
 
   /**
-   * 有効な範囲かどうかチェックする
+   * 有効な範囲かどうかチェックする检查是否有效的范围
    * @param	x
    * @param	y
    * @return
@@ -110,21 +110,35 @@ class Layer2D {
     return true;
   }
 
-  /**
-   * (x,y)の指定を一次元のインデックスに変換する
+  /** toIdx()
+   * (x,y)の指定を一次元のインデックスに変換する 将（x，y）的名称转换为一维索引
    * @param	x
    * @param	y
-   * @return
+   * @return int
    */
   public function toIdx(x:Int, y:Int):Int {
     return x + y * _width;
   }
 
+/** 
+  *  idxToX()
+   * 将1维索引转换成x
+   *  得出余数就是x
+   * @param	idx
+   * @return int
+   */
   public function idxToX(idx:Int):Int {
+    trace(idx  );trace( _width);trace(idx % _width);
     return idx % _width;
   }
-
+/** 
+   *  idxToY()
+   * 将1维索引转换成y
+   * @param	idx
+   * @return int
+   */
   public function idxToY(idx:Int):Int {
+    trace(Std.int(idx / _width));
     return Std.int(idx / _width);
   }
 
@@ -178,7 +192,7 @@ class Layer2D {
   }
 
   /**
-   * 指定の値が存在する座標をランダムで返す
+   * 指定の値が存在する座標をランダムで返す指定的值存在的坐标
    * @return 見つからなかったら null
    **/
   public function searchRandom(v:Int):FlxPoint {

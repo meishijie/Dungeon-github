@@ -139,7 +139,7 @@ class Global {
 	 **/
   public static function nextFloor():Void {
     _floor++;
-    // TODO: 最後まで進んだら最初に戻る 最后前进后最先回到最初
+    // TODO: 最後まで進んだら最初に戻る 最后一层回到最先一层
     var map = TextUtil.fillZero(_floor, 3);
     var path = 'assets/levels/${map}.tmx';
     if(Assets.exists(path, TEXT) == false) {

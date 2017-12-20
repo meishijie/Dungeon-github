@@ -600,13 +600,13 @@ override public function update(elapsed:Float):Void
   }
 
   /**
-	 * 更新・歩く
+	 * 更新・歩く 更新·走
 	 **/
   private function _updateWalk():Bool {
-    // 経過フレームの割合を求める
+    // 経過フレームの割合を求める 找出经过的帧的比例
     var tWait:Int = TIMER_WALK;
     if(_bRun) {
-      // 早歩き
+      // 早歩き 快走
       tWait = Std.int(tWait / 3);
     }
 
@@ -615,7 +615,7 @@ override public function update(elapsed:Float):Void
     // 移動方向を求める
     var dx = _xnext - _xprev;
     var dy = _ynext - _yprev;
-    // 座標を線形補間する
+    // 座標を線形補間する以坐标为线性插值
     x = Field.toWorldX(_xprev) + (dx * Field.GRID_SIZE) * t;
     y = Field.toWorldY(_yprev) + (dy * Field.GRID_SIZE) * t;
     if(_tMove >= tWait) {

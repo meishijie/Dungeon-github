@@ -99,7 +99,7 @@ class TmxLoader {
   /**
    * Tiled Map Editorファイルをロードする
    * @param filepath *.tmxファイルのパス
-   * @param dirTileset タイルセットのフォルダ（指定するとタイルセット情報を読み込む）
+   * @param dirTileset タイルセットのフォルダ（指定するとタイルセット情報を読み込む）瓷砖的文件夹 指定的瓷砖设置信息
    * @return Layer2D
    **/
   public function load(filepath:String, dirTileset:String=""):Void {
@@ -160,9 +160,8 @@ class TmxLoader {
                 }
               case "data":
                 var data:Xml = gchild;
-                // CSVノード
+                // CSVノードCSV节点
                 var csv:Xml = data.firstChild();
-
                 var text:String = csv.nodeValue;
                 var y:Int = 0;
                 for(line in text.split("\n")) {
@@ -206,7 +205,7 @@ class TmxLoader {
   public function getTileset(GID:Int):TmxTileset {
     for(tileset in _tilesets) {
       if(tileset.hasGID(GID)) {
-        // 見つかった
+        // 見つかった找到了
         return tileset;
       }
     }
