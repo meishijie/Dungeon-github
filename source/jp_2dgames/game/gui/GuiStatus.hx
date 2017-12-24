@@ -14,6 +14,7 @@ import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.ui.FlxBar;
 import flixel.text.FlxText;
+import flixel.text.FlxText.FlxTextFormat;
 import flixel.group.FlxGroup;
 import flixel.FlxBasic;
 import flash.Lib;
@@ -22,6 +23,10 @@ import openfl.text.TextFormat;
 import openfl.text.TextFormatAlign;
 import openfl.display.Bitmap;
 import openfl.display.Sprite;
+<<<<<<< Updated upstream
+=======
+import flixel.system.FlxAssets;
+>>>>>>> Stashed changes
 /**
  * 主角信息生命等显示
  **/
@@ -46,14 +51,18 @@ class GuiStatus extends FlxGroup {
   private static inline var BG_H = 24;
 
   // Y調整
-  private static inline var MERGIN_Y = 2;
+  private static inline var MERGIN_Y = 0;
 
   // バーのサイズ
-  private static inline var BAR_W = 180;
-  private static inline var BAR_H = 4;
+  private static inline var BAR_W = 100;
+  private static inline var BAR_H = 10;
 
   // フロア数
+<<<<<<< Updated upstream
   private static inline var FLOORTEXT_X = 0;
+=======
+  private static inline var FLOORTEXT_X = 10;
+>>>>>>> Stashed changes
   private static inline var FLOORTEXT_Y = 0;
   // レベルテキスト
   private static inline var LVTEXT_X = FLOORTEXT_X + 32;
@@ -67,10 +76,10 @@ class GuiStatus extends FlxGroup {
   private static inline var HPTEXT_X = LVTEXT_X + 64;
   private static inline var HPTEXT_Y = 0 - MERGIN_Y;
   // HPバー
-  private static inline var HPBAR_X = HPTEXT_X;
-  private static inline var HPBAR_Y = 16;
+  private static inline var HPBAR_X = HPTEXT_X + 250;
+  private static inline var HPBAR_Y = 5;
   // 満腹度
-  private static inline var FOODTEXT_X = HPBAR_X + 192;
+  private static inline var FOODTEXT_X = HPBAR_X + 0;
   private static inline var FOODTEXT_Y = 0;
   // スコア
   private static inline var SCORE_X = MONEYTEXT_X + 96;
@@ -91,7 +100,8 @@ class GuiStatus extends FlxGroup {
   private var _txtLv:FlxText;
   private var _txtFloor:FlxText;
   private var _txtHp:FlxText;
-  private var _hpBar:FlxBar;
+  private var _foodBar:FlxBar;
+  // private var _hpBar:FlxBar;
   private var _txtFood:FlxText;
   private var _txtMoney:FlxText;
   private var _txtScore:FlxText;
@@ -122,18 +132,27 @@ class GuiStatus extends FlxGroup {
   private var _stageW = Lib.current.stage.stageWidth;
 
   private var _txtFloor1:TextField;
+<<<<<<< Updated upstream
   private var _bgStatus:Sprite;
+=======
+  private var _bgStatus:FlxSprite;
+>>>>>>> Stashed changes
   //
   /**
 	 * 角色信息ui
 	 **/
+<<<<<<< Updated upstream
   //**TODO: 所有UI都放到openfl里面显示 (doing)**/
+=======
+  //** TODO: 使用系统字体显示 (doing) **/
+>>>>>>> Stashed changes
   public function new() {
     super();
 
     _groupOfsY = -BG_H; 
     _group = new FlxSpriteGroup();
 
+<<<<<<< Updated upstream
     // 背景
     // _bgStatus = new FlxSprite(0, 0).makeGraphic(BG_W, BG_H, FlxColor.WHITE);
     // _bgStatus = new FlxSprite(0, 0).makeGraphic(_stageW, BG_H, FlxColor.WHITE);
@@ -160,42 +179,101 @@ class GuiStatus extends FlxGroup {
 		_txtFloor1.selectable = false;
     FlxG.addChildBelowMouse(_txtFloor1);
     // レベルテキスト 等级文本
+=======
+    {
+      // 背景
+      //_bgStatus = new FlxSprite(0, 0).makeGraphic(BG_W, BG_H, FlxColor.WHITE);
+      _bgStatus = new FlxSprite(0, 0).makeGraphic(_stageW, BG_H, FlxColor.WHITE);
+      _bgStatus.color = FlxColor.BLACK;
+      _bgStatus.alpha = 0.5;
+      //_bgStatus.x -= 32;
+      //_bgStatus.y -= 32;
+      _group.add(_bgStatus);
+
+      // 背景使用openfl sprite 
+      // _bgStatus = new Sprite();
+      // _bgStatus.graphics.beginFill (0x000000, 0.4);
+      // _bgStatus.graphics.drawRect (0, 0, _stageW, 32);
+      // FlxG.addChildBelowMouse(_bgStatus);
+    }
+    // フロアテキスト 楼层文本 使用openfl文本 FlxG.addChildBelowMouse() 字体太小还是使用FlxText
+    _txtFloor = new FlxText(FLOORTEXT_X, FLOORTEXT_Y, 128);
+    _txtFloor.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE_S);
+    _txtFloor.setBorderStyle(FlxTextBorderStyle.OUTLINE,FlxColor.BLACK,1);
+    _group.add(_txtFloor);
+    // _txtFloor1 = new TextField();
+    // _txtFloor1.text = 'openfl的文字';
+    // var scoreFormat:TextFormat = new TextFormat(Reg.PATH_FONT, 14, 0xFFFFFF, false);
+		// scoreFormat.align = TextFormatAlign.LEFT;
+    // _txtFloor1.width = 100;
+		// _txtFloor1.defaultTextFormat = scoreFormat;
+		// _txtFloor1.selectable = false;
+    // _txtFloor1.x = FLOORTEXT_X;
+    // _txtFloor1.y = FLOORTEXT_Y;
+    // FlxG.addChildBelowMouse(_txtFloor1);
+
+    // 等级文本
+>>>>>>> Stashed changes
     _txtLv = new FlxText(LVTEXT_X, LVTEXT_Y, 128);
-    _txtLv.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE_S);
+    _txtLv.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE_S); 
+	_txtLv.setBorderStyle(FlxTextBorderStyle.OUTLINE,FlxColor.BLACK,1);
     _group.add(_txtLv);
+    // _txtLv = new TextField();
+    // _txtLv.defaultTextFormat = scoreFormat;
+    // _txtLv.x = 0;
+    // _txtLv.y = 0;
+    // _txtLv.text = '等级文字';
+    // FlxG.addChildBelowMouse(_txtLv);
 
-    // HPバー
-    _hpBar = new FlxBar(HPBAR_X, HPBAR_Y, FlxBarFillDirection.LEFT_TO_RIGHT, BAR_W, BAR_H);
-    _hpBar.createFilledBar(FlxColor.RED, FlxColor.RED);
-    _group.add(_hpBar);
-
-    // HPテキスト
-    _txtHp = new FlxText(HPTEXT_X, HPTEXT_Y, 180);
+	// HPテキスト
+    _txtHp = new FlxText(HPTEXT_X, HPTEXT_Y, 100,"",20,true);
     _txtHp.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE_S);
+	_txtHp.setBorderStyle(FlxTextBorderStyle.OUTLINE,FlxColor.BLACK,1);
     _group.add(_txtHp);
+	
+    // 饥饿度bar显示
+    _foodBar = new FlxBar(HPTEXT_X+_txtHp.width, HPBAR_Y, FlxBarFillDirection.LEFT_TO_RIGHT, BAR_W, BAR_H);
+    _foodBar.createFilledBar(FlxColor.RED, FlxColor.GREEN,true);
+    _group.add(_foodBar);
+    // _hpBar = new Sprite();
+    // _hpBar.graphics.beginFill (0xFFFFFF, 1);
+    // _hpBar.graphics.drawRect (0, 0, BAR_W, BAR_H);
+    // _hpBar.width = BAR_W;
+    // _hpBar.x = 100;
+    // _hpBar.y = HPBAR_Y;
+    // FlxG.addChildBelowMouse(_hpBar);
 
-    // 満腹度テキスト
-    _txtFood = new FlxText(FOODTEXT_X, FOODTEXT_Y, 160);
-    _txtFood.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE_S);
-    _group.add(_txtFood);
+    
+
+    // 満腹度テキスト改成百分比显示
+    // _txtFood = new FlxText(FOODTEXT_X, FOODTEXT_Y, 160);
+    // _txtFood.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE_S);
+    // _group.add(_txtFood);
 
     // 所持金テキスト
-    _txtMoney = new FlxText(MONEYTEXT_X, MONEYTEXT_Y, 128);
+    _txtMoney = new FlxText(FlxG.width, 0, 128);
     _txtMoney.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE_S);
     _txtMoney.alignment = "right";
+	_txtMoney.setBorderStyle(FlxTextBorderStyle.OUTLINE,FlxColor.BLACK,1);
     _group.add(_txtMoney);
-
+    _txtMoney.x -= _txtMoney.frameWidth;
     // 所持金テキスト（増分）
-    _txtMoneyAdd = new FlxText(MONEYTEXT_X, MONEYTEXT_ADD_Y, 128);
+    _txtMoneyAdd = new FlxText(FlxG.width, 0, 128);
     _txtMoneyAdd.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE_S);
     _txtMoneyAdd.alignment = "right";
+	_txtMoneyAdd.setBorderStyle(FlxTextBorderStyle.OUTLINE,FlxColor.BLACK,1);
     _group.add(_txtMoneyAdd);
-
-    // スコアテキスト
-    _txtScore = new FlxText(SCORE_X, SCORE_Y, 128);
-    _txtScore.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE_S);
-    _txtScore.alignment = "right";
-    _group.add(_txtScore);
+    _txtMoneyAdd.x -= _txtMoneyAdd.frameWidth;
+    _txtMoneyAdd.y += _txtMoneyAdd.frameHeight;
+    // スコアテキスト 使用系统字体
+    // _txtScore = new FlxText(SCORE_X, SCORE_Y, 128,"",14,false);
+    // _txtScore.setFormat("", Std.int(12/FlxG.camera.zoom));//
+    
+    var scoreFormat1:FlxTextFormat = new FlxTextFormat( 0xFFFFFF, true);
+    // _txtScore.addFormat(scoreFormat1);
+    // _txtScore.alignment = "right";
+    
+    // _group.add(_txtScore);
 
     // 画面上のグループ登録
     this.add(_group);
@@ -208,24 +286,36 @@ class GuiStatus extends FlxGroup {
     _nightmareInfo = new GuiNightmare();
     this.add(_nightmareInfo);
 
+<<<<<<< Updated upstream
     // ■ヘルプ菜单
+=======
+    // ■ヘルプ菜单帮助菜单
+>>>>>>> Stashed changes
     _help = new FlxSpriteGroup();
-    // ヘルプ座標(Y)
+    // ヘルプ座標(Y)帮助坐标（Y）
     _helpY = FlxG.height - HELP_DY;
-    // ヘルプの背景
+    // ヘルプの背景帮助
     _bgHelp = new FlxSprite(0, 0).makeGraphic(BG_W, HELP_DY, FlxColor.WHITE);
     _bgHelp.color = FlxColor.BLACK;
     _bgHelp.alpha = 0.7;
     _help.add(_bgHelp);
     // ヘルプテキスト
-    _txtHelp = new FlxText(HELP_X, 0, 640);
+    _txtHelp = new FlxText(HELP_X, 0, 400);
     _txtHelp.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE_S);
     _help.add(_txtHelp);
+<<<<<<< Updated upstream
+=======
+	_help.scrollFactor.set(0, 0);
+>>>>>>> Stashed changes
     this.add(_help);
 
     // ヘルプテキスト設定
     changeHelp(HELP_KEYINPUT);
+<<<<<<< Updated upstream
     //背包设置镜头
+=======
+    //角色信息设置镜头
+>>>>>>> Stashed changes
     _group.forEach(function(spr:FlxSprite){
       spr.scrollFactor.set(0, 0);
       // spr.camera = PlayState.hudCam;
@@ -242,25 +332,25 @@ override public function update(elapsed:Float):Void
   {
     super.update(elapsed);
 
-    // フロア数
+    // 楼层数设置
     var floor = Global.getFloor();
     _txtFloor1.text = '${floor}F';
 
+    // 等级文字设置
     var player = cast(FlxG.state, PlayState).player;
     var lv = player.params.lv;
-    // レベル
     _txtLv.text = 'LV:${lv}';
 
-    // HP
+    // HP显示
     var hp = player.params.hp;
     var hpmax = player.getHpMax();
-    _txtHp.text = 'HP: ${hp}/${hpmax}';
-    _hpBar.percent = 100 * hp / hpmax;
-
-    // 満腹度
+    _txtHp.text = 'HP ${hp} / ${hpmax}';
+    
+    // 満腹度 饥饿度改成百分比显示
     var full = player.food;
     var fullmax = player.foodmax;
-    _txtFood.text = '满腹度: ${full}/${fullmax}';
+    // _txtFood.text = '满腹度: ${full}/${fullmax}';
+    _foodBar.percent = 100 * ${full}/${fullmax};
 
     // 所持金
     var money = Global.getMoney();
@@ -278,7 +368,7 @@ override public function update(elapsed:Float):Void
     }
     else {
       if(_tMoneyAdd > 0) {
-        // 差分表示点滅中
+        // 金钱增加消失
         _tMoneyAdd--;
         _txtMoneyAdd.visible = true;
         if(_tMoneyAdd < 30 && _tMoneyAdd%4 < 2) {
@@ -290,7 +380,7 @@ override public function update(elapsed:Float):Void
 
     // 分数
     var score = Global.getScore();
-    _txtScore.text = '${score}pt';
+    // _txtScore.text = '${score}pt';
 
     // 显示动画
     _groupOfsY *= 0.8;
@@ -332,10 +422,10 @@ override public function update(elapsed:Float):Void
         if(_tDangerFood%64 < 32) {
           color = FlxColor.RED;
         }
-        _txtFood.color = color;
+        //_foodBar.color = color;
       }
       else {
-        _txtFood.color = FlxColor.WHITE;
+        //_foodBar.color = FlxColor.WHITE;
       }
     }
   }

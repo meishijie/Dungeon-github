@@ -10,7 +10,7 @@ import flixel.util.FlxColor;
 import flixel.FlxSprite;
 import flixel.text.FlxText;
 import flixel.group.FlxGroup;
-
+import flixel.group.FlxSpriteGroup;
 /**
  * メッセージ定数
  **/
@@ -105,7 +105,7 @@ class MessageText extends FlxText {
     x += 64;
     FlxTween.tween(this, {x:xnext}, 0.3, {ease:FlxEase.expoOut});
     // 消滅判定
-    new FlxTimer().start(5, function(t:FlxTimer) {
+    new FlxTimer().start(3, function(t:FlxTimer) {
       // じわじわ消す
       FlxTween.tween(this, {_baseY:-8}, 0.3, {ease:FlxEase.sineOut});
       FlxTween.tween(this, {alpha:0}, 0.3, {ease:FlxEase.sineOut, onComplete:function(tween:FlxTween) {
@@ -117,6 +117,7 @@ class MessageText extends FlxText {
     _bg = new FlxSprite(X-8, Y+4, "assets/images/ui/messagetext.png");
     _bg.alpha = 0;
     _bg.color = MyColor.MESSAGE_WINDOW;
+	
   }
 
   /**
@@ -135,14 +136,15 @@ override public function update(elapsed:Float):Void
 /**
  * メッセージウィンドウ
  **/
-class Message extends FlxGroup {
+class Message extends FlxSpriteGroup {
 
   // メッセージログの最大
-  private static inline var MESSAGE_MAX = 5;
+  private static inline var MESSAGE_MAX = 3;
   // ウィンドウ座標
   private static inline var POS_X = 8;
-  private static inline var POS_Y = 480 - HEIGHT - 24 - 8;
-  private static inline var POS_Y2 = 24 + 8;
+  private static inline var POS_Y = 0 + 8;
+  //private static inline var POS_Y = 480 - HEIGHT - 24 - 8;
+  private static inline var POS_Y2 = 20 + 8;
   // ウィンドウサイズ
   private static inline var WIDTH = 640 - 8 * 2;
   private static inline var HEIGHT = (MESSAGE_MAX*DY)+14;
@@ -225,7 +227,11 @@ class Message extends FlxGroup {
     // CSVメッセージ
     _csv = csv;
     _csvHint = csvHint;
-
+	this.forEach(function(spr:FlxSprite){
+      spr.scrollFactor.set(0, 0);
+      // spr.camera = PlayState.hudCam;
+      spr.camera = FlxG.camera;
+    });
     // 非表示
     visible = false;
   }
@@ -239,23 +245,23 @@ class Message extends FlxGroup {
     if(y > POS_Y - 1 * 32) {
       // 上にする
       if(_bDispBottom) {
-        // 下から上に変わった
+        // 从下边上
         _txtOfsY2 = -DY * MESSAGE_MAX;
       }
       _bDispBottom = false;
       return POS_Y2;
     }
 
-    if(y < POS_Y2 + 5 * 32) {
+    /*if(y < POS_Y2 + 5 * 32) {
       // 下にする
       if(_bDispBottom == false) {
-        // 上から下に変わった
+        // 从上变下了
         _txtOfsY2 = DY * MESSAGE_MAX;
       }
       _bDispBottom = true;
       return POS_Y;
     }
-
+*/
     if(_bDispBottom) {
       return POS_Y;
     }
@@ -322,7 +328,9 @@ override public function update(elapsed:Float):Void
     }
     this.add(text.bg);
     this.add(text);
-
+	
+	text.scrollFactor.set(0, 0);
+	text.bg.scrollFactor.set(0, 0);
     // 表示する
     visible = true;
     _timer = TIMER_DISAPPEAR;

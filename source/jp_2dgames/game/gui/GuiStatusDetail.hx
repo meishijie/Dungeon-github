@@ -60,8 +60,9 @@ class GuiStatusDetail extends FlxSpriteGroup {
    **/
   public function new(X:Float, Y:Float) {
     _orgY = Y;
-    super(X, Y);
-
+	//Y = FlxG.height / 2 - 50;
+    super(X-70, Y+50);
+	
     // 背景
     var back = new FlxSprite(0, 0, "assets/images/ui/window200x100.png");
     back.color = MyColor.DETAIL_FRAME;

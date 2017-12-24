@@ -9,7 +9,7 @@ import flixel.tweens.FlxTween;
 import flixel.group.FlxSpriteGroup;
 import flixel.FlxSprite;
 import flixel.text.FlxText;
-
+import flixel.FlxG;
 /**
  * 状態
  **/
@@ -61,10 +61,9 @@ class InventoryCommand extends FlxSpriteGroup {
    * @param items 項目パラメータ
    **/
   public function new(X:Float, Y:Float, cbFunc:Int->Int, items:Array<Int>) {
-    var ofsY = -Y*2;
+    var ofsY = Y;
     super(X, Y+ofsY);
-    FlxTween.tween(this, {y:Y}, 0.3, {ease:FlxEase.expoOut});
-
+    //FlxTween.tween(this, {y:Y}, 0.3, {ease:FlxEase.expoOut});
     // 背景枠
     _bgList = new Array<FlxSprite>();
     for(i in 0...items.length) {
@@ -103,6 +102,12 @@ class InventoryCommand extends FlxSpriteGroup {
     }
     _items = items;
     _cbFunc = cbFunc;
+	this.forEach(function(spr:FlxSprite){
+      spr.scrollFactor.set(0, 0);
+      // spr.camera = PlayState.hudCam;
+      spr.camera = FlxG.camera;
+    });
+	FlxTween.tween(this, {y:Y}, 0.3, {ease:FlxEase.expoOut});
   }
 
   /**

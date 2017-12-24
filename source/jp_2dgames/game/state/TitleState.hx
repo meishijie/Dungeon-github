@@ -55,7 +55,7 @@ private enum State {
 class TitleState extends FlxState {
 
   //  
-  private static inline var VERSION_GAME:String = "Ver. 1.0.0";
+  private static inline var VERSION_GAME:String = "Ver. 2.0.0";
 
   // ロゴ
   private static inline var LOGO_Y = -160;
@@ -166,7 +166,7 @@ class TitleState extends FlxState {
     this.add(_bgLogo);
 
     // タイトルロゴ
-    _txtLogo = new FlxText(FlxG.width/2, LOGO_Y2, 320, "1 Rogue", LOGO_SIZE);
+    _txtLogo = new FlxText(FlxG.width/2, LOGO_Y2, 320, "Dungeon Rogue", LOGO_SIZE);
     _txtLogo.color = FlxColor.WHITE;
     _txtLogo.x -= _txtLogo.width/2;
     _txtLogo.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.YELLOW, 8);
@@ -189,7 +189,7 @@ class TitleState extends FlxState {
     var px = FlxG.width/2 - 100;
     var py = FlxG.height/2;
     _btnClick = new MyButton(px, py, "PLEASE CLICK", function() {
-      // メインメニューへ遷移
+      // メインメニューへ遷移转移到主菜单
       _changeMainMenu();
     }, function() {
       Snd.playSe("pi", true);
@@ -197,7 +197,7 @@ class TitleState extends FlxState {
     this.add(_btnClick);
 
     if(GameData.bitCheck(GameData.FLG_FIRST_DONE) == false) {
-      // 初回起動時はネームエントリを表示
+      // 初回启动时显示姓名入口
       openSubState(new NameEntryState());
       GameData.bitOn(GameData.FLG_FIRST_DONE);
     }
@@ -252,10 +252,10 @@ class TitleState extends FlxState {
 }
 
  /**
-   * メインメニューに遷移
+   * 转移到主菜单
    **/
   private function _changeMainMenu():Void {
-		// ボタンを消しておく
+		// 把按钮关掉
     _btnClick.kill();
 
     // 決定SE
@@ -308,15 +308,16 @@ class TitleState extends FlxState {
     _csv = new CsvLoader("assets/data/title.csv");
 
     // ポップアップテキスト
-    {
-      _txtTip = new FlxText(0, 0, 400, "");
+    { 
+      _txtTip = new FlxText(0, 0);
       _txtTip.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE);
       _txtTip.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.GREEN);
       _txtTip.color = FlxColor.WHITE;
+      // _txtTip.bold = true;
       _txtTip.visible = false;
 
       _sprTip = new FlxSprite(0, 0);
-      _sprTip.makeGraphic(400, 24, FlxColor.BLACK);
+      _sprTip.makeGraphic(Std.int(_txtTip.width), 24, FlxColor.BLACK);
       _sprTip.alpha = 0.5;
       _sprTip.visible = false;
     }

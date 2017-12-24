@@ -134,7 +134,7 @@ class PlayState extends FlxState {
 	 */
   override public function create():Void {
     super.create();
-	
+	//FlxG.camera.antialiasing = true;
     if(Global.isLoadGame()) {
       // セーブデータをロード
       // グローバルデータのみ 保存数据是否载入载入
@@ -416,17 +416,22 @@ class PlayState extends FlxState {
     }
 
     // メッセージを描画に登録
-	//拾取物品描述信息
-    //this.add(message);
+	//进程信息
+    this.add(message);
 
     // 物品生成
     var inventory = new Inventory();
     this.add(inventory);
+<<<<<<< Updated upstream
+=======
+	
+>>>>>>> Stashed changes
     var camBg = new FlxSprite(-FlxG.width*2 -64,-32);
     add(camBg);
     //镜头管理
     FlxG.camera.antialiasing = false;
 	  
+<<<<<<< Updated upstream
 		hudCam.zoom = 1; // For 1/2 zoom out.
 		hudCam.follow(camBg);
 		hudCam.targetOffset.x = 0;
@@ -435,6 +440,16 @@ class PlayState extends FlxState {
     hudCam.useBgAlphaBlending = true;
     hudCam.bgColor = FlxColor.TRANSPARENT;
 		FlxG.cameras.add(hudCam);
+=======
+	hudCam.zoom = 1; // For 1/2 zoom out.
+	hudCam.follow(camBg);
+	hudCam.targetOffset.x = 0;
+    hudCam.targetOffset.y = 0;
+	hudCam.alpha = 1;
+    hudCam.useBgAlphaBlending = true;
+    hudCam.bgColor = FlxColor.TRANSPARENT;
+	//FlxG.cameras.add(hudCam);
+>>>>>>> Stashed changes
     
     Inventory.instance = inventory;
     inventory.setGuiStatus(_guistatus);
@@ -442,6 +457,7 @@ class PlayState extends FlxState {
     // アイテムデータ設定 物品数据设置
     Global.setItemList();
     inventory.kill();
+	
 	
     // シーケンス管理 程序总管理器
     _seq = new SeqMgr(this, _csv);

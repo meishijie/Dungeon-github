@@ -77,7 +77,7 @@ class GenerateInfo {
   }
 
   /**
-   * ランダムにIDを決定する随机决定
+   * 随机决定ID的决定
    **/
   public function generate():Int {
     // ランダムで決定する 随机决定
@@ -91,7 +91,6 @@ class GenerateInfo {
       rnd -= ratio;
       idx++;
     }
-
     // 見つからなかった
     return 0;
   }
@@ -143,10 +142,10 @@ class Generator {
   }
 
   /**
-   * 出現した敵を眠り状態にするかどうか
+   * 是否将出现的敌人长眠于睡眠状态
    **/
   public static function checkEnemySleep(enemy:Enemy):Bool {
-    // 遠くに出現した敵ほど眠りやすくなる
+    // 越是远处出现的敌人越容易睡眠
     var player = cast(FlxG.state, PlayState).player;
     var dx = player.xchip - enemy.xchip;
     var dy = player.ychip - enemy.ychip;

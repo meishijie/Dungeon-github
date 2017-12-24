@@ -491,7 +491,7 @@ class Actor extends FlxSprite {
     _extParams = new Params();
     // ID
     _id = params.id;
-    // バッドステータス設定
+    // 异常状态设置
     var bSilent = true;
     changeBadStatus(BadStatusUtil.fromString(_params.badstatus), bSilent);
   }

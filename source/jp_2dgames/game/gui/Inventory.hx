@@ -43,6 +43,9 @@ private enum MenuMode {
  * インベントリ
  **/
 class Inventory extends FlxGroup {
+	
+	//
+	private var _group:FlxSpriteGroup;
 
   // ■戻り値
   public static inline var RET_CONTINUE:Int = 0; // 処理続行中
@@ -83,9 +86,15 @@ class Inventory extends FlxGroup {
 
   // 背包系统位置 
   //**TODO 位置需要设置为动态定位**/
+<<<<<<< Updated upstream
   private static var POS_X = -1200;
   private static  var POS_Y = 0;
   // ウィンドウサイズ
+=======
+  private static var POS_X = 0;
+  private static  var POS_Y = 0;
+  // ウィンドウサイズ窗口大小
+>>>>>>> Stashed changes
   private static inline var WIDTH = 212 - 8 * 2;
   private static inline var HEIGHT = (DY * PAGE_DISP) + MSG_POS_Y + 8;//480 - 64 - 8 * 2;
 
@@ -97,7 +106,7 @@ class Inventory extends FlxGroup {
   private static inline var DETAIL_OFSY2 = 128;
 
   // 詳細の座標
-  private static inline var DETAIL_EQUIP_X = 208;
+  private static inline var DETAIL_EQUIP_X = 190;
   private static inline var DETAIL_EQUIP_Y = 0;
 
   // 説明文の座標
@@ -105,20 +114,34 @@ class Inventory extends FlxGroup {
   private static inline var DETAIL_ITEM_Y = 0;
 
   // コマンドの座標
+<<<<<<< Updated upstream
   private static  var CMD_X = POS_X - 80;
   private static inline var CMD_Y = DETAIL_EQUIP_Y + 112;
 
   // ページ数テキストの座標
   private static  var PAGE_X = POS_X + 24;
   private static  var PAGE_Y = POS_Y + 4;
+=======
+  private static  var CMD_X = 0 ;
+  private static inline var CMD_Y = DETAIL_EQUIP_Y + 120;
+
+  // ページ数テキストの座標
+  private static  var PAGE_X = POS_X + 24;
+  private static  var PAGE_Y = 80;
+>>>>>>> Stashed changes
 
   // ページ切り替え矢印の座標
   private static  var ARROW_L_POS_X = POS_X + 4;
   private static  var ARROW_R_POS_X = POS_X + 128;
+<<<<<<< Updated upstream
   private static  var ARROW_POS_Y = PAGE_Y + 6;
+=======
+  private static  var ARROW_POS_Y = PAGE_Y + 90;
+>>>>>>> Stashed changes
 
   // アイテム枠座標オフセット
-  private static inline var LIST_POS_Y = 32;
+  private static inline var LIST_POS_Y = 0;
+  private static inline var LIST_POS_OFFSET = 25;
   // メッセージ座標オフセット
   private static inline var MSG_POS_X = 24;
   private static inline var MSG_POS_Y = 32+2;
@@ -487,12 +510,13 @@ class Inventory extends FlxGroup {
 
   }
 
-public static var _invBG:FlxSprite;
+  public static var _invBG:FlxSprite;
   /**
    * コンストラクタ
    **/
   public function new() {
     super();
+<<<<<<< Updated upstream
     POS_X = -FlxG.width*2;
     CMD_X = POS_X - 80;
     PAGE_X = POS_X + 24;
@@ -504,37 +528,60 @@ public static var _invBG:FlxSprite;
     _invBG.alpha = 0.01;
     this.add(_invBG);
     // ページ数
+=======
+	_group = new FlxSpriteGroup();
+	
+    POS_X = Std.int(FlxG.width / 2 );
+	POS_Y = Std.int(FlxG.height / 2 -DY * PAGE_DISP/2);
+    //CMD_X = _cursor.x - 200;
+	
+    PAGE_X = POS_X + 24 ;
+	PAGE_Y = Std.int(POS_Y - DY);
+   
+    // 基準座標
+    x = POS_X; // X座標
+	y = POS_Y;
+    //_invBG = new FlxSprite(x, y, "assets/images/ui/listitem.png");
+   // _invBG.alpha = 0.01;
+    //this.add(_invBG);
+	
+    // 页码数
+>>>>>>> Stashed changes
     _txtPage = new FlxText(PAGE_X, PAGE_Y, 0, 128);
     _txtPage.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE_S);
-    this.add(_txtPage);
+    _group.add(_txtPage);
 
-    // アイテム背景
+	ARROW_L_POS_X = Std.int(_txtPage.x - 10);
+    ARROW_R_POS_X = Std.int(_txtPage.x + 80);
+	ARROW_POS_Y = Std.int(_txtPage.y + 5);
+	
+    // 物品背景
     _bgItems = new Array<FlxSprite>();
     for(i in 0...PAGE_DISP) {
-      var spr = new FlxSprite(x, y + LIST_POS_Y + (DY * i), "assets/images/ui/listitem.png");
-      this.add(spr);
+      var spr = new FlxSprite(x, y+ (DY * i), "assets/images/ui/listitem.png");
+      _group.add(spr);
       _bgItems.push(spr);
     }
 
-    // カーソル
-    _cursor = new FlxSprite(POS_X, y + LIST_POS_Y, "assets/images/ui/listitem.png");
+    // 选中指针显示
+    _cursor = new FlxSprite(x, y , "assets/images/ui/listitem.png");
     _cursor.alpha = 0.4;
     _cursor.color = MyColor.CURSOR;
-    this.add(_cursor);
+    _group.add(_cursor);
     // カーソルは初期状態非表示
     _cursor.visible = false;
 
-    // テキストを登録
+    // 物品文字显示
     _txtList = new List<FlxText>();
     for(i in 0...PAGE_DISP) {
-      var txt = new FlxText(x + MSG_POS_X, y + MSG_POS_Y + i * DY, 0, 160);
+      var txt = new FlxText(x + LIST_POS_OFFSET, y + i * DY, 0, 160);
       txt.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE_S);
       txt.color = MyColor.LISTITEM_TEXT;
       _txtList.add(txt);
-      this.add(txt);
+      _group.add(txt);
     }
 
-    // フォント読み込み
+    // 已装备物品显示符号 3个
     _fonts = new Array<FlxSprite>();
     for(i in 0...EQUIP_MAX) {
       // var str_map = "0123456789";
@@ -545,7 +592,7 @@ public static var _invBG:FlxSprite;
       spr.animation.add("1", [14], 1); // 'E'
       spr.animation.play("1");
       spr.visible = false;
-      this.add(spr);
+      _group.add(spr);
       _fonts.push(spr);
     }
 
@@ -558,8 +605,19 @@ public static var _invBG:FlxSprite;
     _arrowL.flipX = true;
     // いったん非表示
     _setDispPageArrow(false);
-    this.add(_arrowL);
-    this.add(_arrowR);
+    _group.add(_arrowL);
+    _group.add(_arrowR);
+	_group.forEach(function(spr:FlxSprite){
+      spr.scrollFactor.set(0, 0);
+      // spr.camera = PlayState.hudCam;
+      spr.camera = FlxG.camera;
+    });
+	this.add(_group);
+	_group.forEach(function(spr:FlxSprite){
+      spr.scrollFactor.set(0, 0);
+      // spr.camera = PlayState.hudCam;
+      spr.camera = FlxG.camera;
+    });
     //打开和关闭菜单按钮 
     // GuiKey.bg1.buttonB.onDown.callback = function(){
     //     ca++;
@@ -620,12 +678,12 @@ public static var _invBG:FlxSprite;
     // カーソル位置も更新
     _updateCursorPosition();
 
-    // 詳細ステータス
-    _detailEquip = new GuiStatusDetail(DETAIL_EQUIP_X, DETAIL_EQUIP_Y);
+    // 詳細ステータス详细状态
+    _detailEquip = new GuiStatusDetail(DETAIL_EQUIP_X, FlxG.height/2);//DETAIL_EQUIP_Y
     // 売却価格
     _detailSell = new GuiSellDetail(DETAIL_EQUIP_X, DETAIL_EQUIP_Y);
     // アイテム詳細
-    _detailItem = new GuiItemDetail(DETAIL_ITEM_X, DETAIL_ITEM_Y);
+    _detailItem = new GuiItemDetail(DETAIL_ITEM_X, FlxG.height/2);//DETAIL_ITEM_Y
     // 詳細
     _detail = new FlxSpriteGroup(DETAIL_X, DETAIL_Y);
     _detail.add(_detailEquip);
@@ -687,7 +745,7 @@ public static var _invBG:FlxSprite;
             _updateText();
           }
 
-          // カーソルタイマー初期化
+          // カーソルタイマー初期化游标定时器初始化
           _tCursor = 90;
 
           // 起動モードを設定
@@ -989,7 +1047,7 @@ public static var _invBG:FlxSprite;
       _cursor.alpha = 0.3 + 0.1 * Math.sin(_tCursor * FlxAngle.TO_RAD);
 
       // ページ切り替え矢印更新
-      _arrowL.x = ARROW_L_POS_X + 4 * Math.sin((_tCursor%180) * FlxAngle.TO_RAD);
+      _arrowL.x = ARROW_L_POS_X ;
       _arrowR.x = ARROW_R_POS_X - 4 * Math.sin((_tCursor%180) * FlxAngle.TO_RAD);
     }
     else {
@@ -1049,7 +1107,7 @@ public static var _invBG:FlxSprite;
               // コマンドメニューを開く打开命令菜单
               var param = _getMenuParam();
               var itemid = getSelectedItem();
-              _cmd = new InventoryCommand(CMD_X, CMD_Y, _cbAction, param);
+              _cmd = new InventoryCommand(_cursor.x-80, _cursor.y, _cbAction, param);
               this.add(_cmd);
               _state = State.Command;
 
@@ -1496,7 +1554,7 @@ public static var _invBG:FlxSprite;
         }
         spr.visible = true;
         var idx = i % PAGE_DISP;
-        spr.y = y + EQUIP_POS_Y + (idx * DY) + MSG_POS_Y;
+        spr.y = y + EQUIP_POS_Y + (idx * DY) ;//MSG_POS_Y
       }
     }
   }

@@ -74,6 +74,6 @@ class GuiSellDetail extends FlxSpriteGroup {
    * 選択中のアイテムを設定する
    **/
   public function setSelectedItem(item:ItemData) {
-    _updateText(item);trace(_txtSell.text);
+    _updateText(item);
   }
 }

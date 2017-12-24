@@ -128,7 +128,11 @@ class Layer2D {
    * @return int
    */
   public function idxToX(idx:Int):Int {
+<<<<<<< Updated upstream
     trace(idx  );trace( _width);trace(idx % _width);
+=======
+    //trace(idx  );trace( _width);trace(idx % _width);
+>>>>>>> Stashed changes
     return idx % _width;
   }
 /** 
@@ -138,7 +142,11 @@ class Layer2D {
    * @return int
    */
   public function idxToY(idx:Int):Int {
+<<<<<<< Updated upstream
     trace(Std.int(idx / _width));
+=======
+    //trace(Std.int(idx / _width));
+>>>>>>> Stashed changes
     return Std.int(idx / _width);
   }
 

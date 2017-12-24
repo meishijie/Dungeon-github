@@ -57,7 +57,11 @@ class NMEPreloader extends Sprite
 	
 	public function getHeight():Float
 	{
+<<<<<<< Updated upstream
 		var height = 420;
+=======
+		var height = 640;
+>>>>>>> Stashed changes
 		
 		if (height > 0) {
 			
@@ -73,7 +77,11 @@ class NMEPreloader extends Sprite
 	
 	public function getWidth():Float
 	{
+<<<<<<< Updated upstream
 		var width = 800;
+=======
+		var width = 960;
+>>>>>>> Stashed changes
 		
 		if (width > 0) {
 			

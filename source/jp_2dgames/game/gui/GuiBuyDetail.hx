@@ -27,7 +27,7 @@ class GuiBuyDetail extends FlxSpriteGroup {
   public static inline var ITEM_MAX:Int = 8;
 
   // 背景の枠
-  public static inline var BG_WIDTH = 344;
+  public static inline var BG_WIDTH = 250;
   public static inline var BG_HEIGHT = MSG_Y*2 + ITEM_MAX*MSG_DY;
 
   // テキストの幅
@@ -37,10 +37,10 @@ class GuiBuyDetail extends FlxSpriteGroup {
   private static inline var MSG_Y = 0;
   private static inline var MSG_DY = 24;
   // 価格
-  private static inline var MSG_X2 = BG_WIDTH - 96;
+  private static inline var MSG_X2 = BG_WIDTH - 100;
 
   private static inline var ITEMDETAIL_X = BG_WIDTH + 16;
-  private static inline var ITEMDETAIL_Y = 0;
+  private static inline var ITEMDETAIL_Y = 50;
 
   // 詳細の座標
   private static inline var DETAIL_EQUIP_X = BG_WIDTH + 16;
@@ -161,9 +161,10 @@ class GuiBuyDetail extends FlxSpriteGroup {
     // アイテム背景
     _bgItemList = new Array<FlxSprite>();
     for(i in 0...ITEM_MAX) {
-      var spr = new FlxSprite(0, (MSG_DY * i), "assets/images/ui/listitem2.png");
+      var spr = new FlxSprite(0, (MSG_DY * i), "assets/images/ui/listitem.png");
       spr.color = MyColor.LISTITEM_ENABLE;
       spr.alpha = 0.75;
+	  spr.width = 100;
       this.add(spr);
       _bgItemList.push(spr);
     }
@@ -190,7 +191,7 @@ class GuiBuyDetail extends FlxSpriteGroup {
     _itemList = new Array<ItemData>();
 
     // カーソル
-    _cursor = new FlxSprite(0, 0, "assets/images/ui/listitem2.png");
+    _cursor = new FlxSprite(0, 0, "assets/images/ui/listitem.png");
     _cursor.alpha = 0.3;
     _cursor.color = MyColor.CURSOR;
     this.add(_cursor);
@@ -204,6 +205,11 @@ class GuiBuyDetail extends FlxSpriteGroup {
     // 詳細ステータス详细情况
     _detailEquip = new GuiStatusDetail(DETAIL_EQUIP_X, DETAIL_EQUIP_Y);
     this.add(_detailEquip);
+	this.forEach(function(spr:FlxSprite){
+      spr.scrollFactor.set(0, 0);
+      // spr.camera = PlayState.hudCam;
+      spr.camera = FlxG.camera;
+    });
   }
 
   /**

@@ -18,7 +18,11 @@
     <window width="1136" height="640" fps="60" background="#000000" hardware="true" vsync="true"/>
     <window width="568" height="320" fps="60" background="#000000" hardware="true" vsync="true"/>
     <window width="284" height="160" fps="60" background="#000000" hardware="true" vsync="true"/>
+<<<<<<< Updated upstream
     <window width="800" height="420" fps="60" background="#000000" hardware="true" vsync="true"/>
+=======
+    <window width="960" height="640" fps="60" background="#000000" hardware="true" vsync="true"/>
+>>>>>>> Stashed changes
 	
     <!--Web-specific-->
     <window if="web" orientation="portrait" antialiasing="true" />

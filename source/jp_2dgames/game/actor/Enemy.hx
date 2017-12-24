@@ -56,7 +56,7 @@ class Enemy extends Actor {
   public static var csv:CsvLoader = null;
   // 出現演出を抑制するかどうか
   public static var bEffectStart:Bool = false;
-
+ 
   /**
    * 敵IDを指定して敵の名前を取得する
    **/
@@ -372,7 +372,7 @@ class Enemy extends Actor {
     _id = params.id;
 
     if(bCreate) {
-      // 生成なのでCSVからパラメータを取得する
+      // 生成なのでCSVからパラメータを取得する从csv获得参数
       params.hp = _getCsvParamInt("hp");
       params.hpmax = params.hp;
       params.str = _getCsvParamInt("str");
@@ -384,7 +384,7 @@ class Enemy extends Actor {
     // 獲得経験値を設定
     params.xp = _getCsvParamInt("xp");
 
-    // アニメーション変更
+    // 动画变更
     _changeAnime();
 
     if(bEffectStart) {

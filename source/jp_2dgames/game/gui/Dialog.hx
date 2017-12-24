@@ -16,8 +16,8 @@ private enum State {
   Closed; // 閉じた
 }
 
-/**
- * ダイアログ 对话框
+/** 
+ * ダイアログ 对话框 
  **/
 class Dialog extends FlxGroup {
   // ダイアログの種類 对话框种类
@@ -29,7 +29,7 @@ class Dialog extends FlxGroup {
 
   private var _group:FlxTypedGroup<FlxSprite>;//群组所有元素到一个组
   // 3択ダイアログのオフセット座標(Y)三选择对话框的坐标（Y）
-  private static inline var SELECT3_OFS_Y:Int = 24;
+  private static inline var SELECT3_OFS_Y:Int = 24; 
 
   // インスタンス 实例
   private static var _instance:Dialog = null;
@@ -178,7 +178,11 @@ class Dialog extends FlxGroup {
     _group.add(_cursor);
     _group.forEach(function(spr:FlxSprite){
         spr.scrollFactor.set(0, 0);
+<<<<<<< Updated upstream
         spr.camera = PlayState.hudCam;
+=======
+        //spr.camera = PlayState.hudCam;
+>>>>>>> Stashed changes
     });
     add(_group);     
     Snd.playSe("menu");

@@ -10,19 +10,21 @@ import flixel.FlxG;
  */
 class Reg {
   // フォントのパス
-  public static inline var PATH_FONT = "assets/font/fangzhengxiangsu14.ttf";
+  public static inline var PATH_FONT = "assets/font/wryh.ttf";
+  public static inline var PATH_FONT_D14 = "assets/font/wryh.ttf";
+  public static inline var PATH_FONT_D16 = "assets/font/wryh.ttf";
   // public static inline var PATH_FONT = "assets/font/pixel.ttf";
   // スプライトフォント
   public static inline var PATH_SPR_FONT = "assets/font/font16x16.png";
 
   // フォントサイズ
-  public static inline var FONT_SIZE = 14;
-  public static inline var FONT_SIZE_S = 14;
+  public static inline var FONT_SIZE = 12;
+  public static inline var FONT_SIZE_S = 12;
 
   // UI領域
   public static inline var UI_WIDTH = 212;
 
-  // ゲーム領域の中心座標を取得する
+  // 取得区域的中心坐标
 
   public static function centerX():Float {
     return (FlxG.width - UI_WIDTH) / 2;
