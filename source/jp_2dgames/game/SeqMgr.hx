@@ -639,15 +639,15 @@ class SeqMgr {
   }
 
   /**
-   * 更新・ターン終了
+   * 更新・ターン終了更新、回合终了
    **/
   private function _procTurnEnd():Void {
 
-    // ネコと重なっているかどうか
+    // 猫和重叠着是否
     Npc.parent.forEachAlive(function(npc:Npc) {
       if(npc.existsPosition(_player.xchip, _player.ychip)) {
         if(npc.getOrb()) {
-          // オーブに変化したのでネコ消滅
+          // オーブに変化したのでネコ消滅由于奥布的变化而消灭猫
           npc.kill();
         }
       }
@@ -697,10 +697,10 @@ class SeqMgr {
         var layer = cast(FlxG.state, PlayState).lField;
         // ナイトメア出現ターン数を減らす
         NightmareMgr.nextTurn(layer);
-        // ターン数を進める
+        // ターン数を進める推进回合数
         Global.nextTurn();
         {
-          // ランダム敵の出現
+          // ランダム敵の出現随机敌人的出现
           Generator.checkRandomEnemy(_csv, layer);
         }
 

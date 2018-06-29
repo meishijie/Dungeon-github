@@ -11,64 +11,79 @@ class KeyOn {
   public var LEFT(get, never):Bool;
 
   inline function get_LEFT() {
-    if(FlxG.keys.pressed.LEFT) {
-      return true;
-    }
+    // if(FlxG.keys.pressed.LEFT) {
+    //   return true;
+    // }
     //if(Pad.on(Pad.LEFT)) {
     //  return true;
     //}
-    if(GuiKey.leftUp == true){
-
-      trace(GuiKey.leftUp);
+    if(GuiKey.bg1.buttonLeft.pressed == true){
       return true;
+    }else{
+      return false;
     }
-    return false;
+    // return false;
   }
   public var RIGHT(get, never):Bool;
 
   inline function get_RIGHT() {
-    if(FlxG.keys.pressed.RIGHT) {
-      return true;
-    }
-    if(Pad.on(Pad.RIGHT)) {
-      return true;
-    }
-    if(GuiKey.rightUp == true){
+    // if(FlxG.keys.pressed.RIGHT) {
+    //   return true;
+    // }
+    // if(Pad.on(Pad.RIGHT)) {
+    //   return true;
+    // }
+    // if(GuiKey.rightUp == true){
 
+    //   return true;
+    // }
+    // return false;
+    if(GuiKey.bg1.buttonRight.pressed == true){
       return true;
+    }else{
+      return false;
     }
-    return false;
   }
   public var UP(get, never):Bool;
 
   inline function get_UP() {
-    if(FlxG.keys.pressed.UP) {
-      return true;
-    }
-    if(Pad.on(Pad.UP)) {
-      return true;
-    }
+    // if(FlxG.keys.pressed.UP) {
+    //   return true;
+    // }
+    // if(Pad.on(Pad.UP)) {
+    //   return true;
+    // }
 
-    if(GuiKey.upUp == true){
+    // if(GuiKey.upUp == true){
 
+    //   return true;
+    // }
+    // return false;
+    if(GuiKey.bg1.buttonUp.pressed == true){
       return true;
+    }else{
+      return false;
     }
-    return false;
   }
   public var DOWN(get, never):Bool;
 
   inline function get_DOWN() {
-    if(FlxG.keys.pressed.DOWN) {
-      return true;
-    }
-    //if(Pad.on(Pad.DOWN)) {
-    //  return true;
-    //}
-    if(GuiKey.downUp == true){
+    // if(FlxG.keys.pressed.DOWN) {
+    //   return true;
+    // }
+    // //if(Pad.on(Pad.DOWN)) {
+    // //  return true;
+    // //}
+    // if(GuiKey.downUp == true){
 
+    //   return true;
+    // }
+    // return false;
+    if(GuiKey.bg1.buttonDown.pressed == true){
       return true;
+    }else{
+      return false;
     }
-    return false;
   }
   public var A(get, never):Bool;
 
@@ -151,33 +166,33 @@ class KeyPress {
   public var LEFT(get, never):Bool;
 
   inline function get_LEFT() {
-    if(FlxG.keys.justPressed.LEFT) {
+      
 
-      return true;
-    }
-    if(Pad.press(Pad.LEFT)) {
-      return true;
-    }
-	
-	if(GuiKey.bg1.buttonLeft.justReleased){
-		return true;
-	}
-	
-    return false;
+      if(FlxG.keys.justPressed.LEFT) {
+        return true;
+      }
+      if(Pad.press(Pad.LEFT)) {
+        return true;
+      }
+      if(GuiKey.bg1.buttonLeft.justPressed){
+        return true;
+      }
+      
+      return false;
   }
   public var RIGHT(get, never):Bool;
 
   inline function get_RIGHT() {
-    if(FlxG.keys.justPressed.RIGHT) {
-      return true;
-    }
-    if(Pad.press(Pad.RIGHT)) {
-      return true;
-    }
-	if(GuiKey.bg1.buttonRight.justReleased){
-		return true;
-	}
-    return false;
+      if(FlxG.keys.justPressed.RIGHT) {
+        return true;
+      }
+      if(Pad.press(Pad.RIGHT)) {
+        return true;
+      }
+      if(GuiKey.bg1.buttonRight.justPressed){
+        return true;
+      }
+      return false;
   }
   public var UP(get, never):Bool;
 
@@ -188,9 +203,9 @@ class KeyPress {
     if(Pad.press(Pad.UP)) {
       return true;
     }
-	if(GuiKey.bg1.buttonUp.justReleased){
-		return true;
-	}
+    if(GuiKey.bg1.buttonUp.justPressed){
+      return true;
+    }
     return false;
   }
   public var DOWN(get, never):Bool;
@@ -203,7 +218,7 @@ class KeyPress {
       return true;
     }
 	
-	if(GuiKey.bg1.buttonDown.justReleased){
+	if(GuiKey.bg1.buttonDown.justPressed){
 		return true;
 	}
 	
@@ -290,20 +305,20 @@ class Key {
   }
 
   public static function checkB(k:FlxKeyList):Bool {
-//    if(k.check(FlxKey.SHIFT)) {
-//      return true;
-//    }
-//    if(k.check(FlxKey.X)) {
-//      return true;
-//    }
-	if(GuiKey.bg1.buttonB.justReleased){
-		return true;
-	}
-	/*if(GuiKey.bUp == true){
-	  GuiKey.bUp = false;
+  //    if(k.check(FlxKey.SHIFT)) {
+  //      return true;
+  //    }
+  //    if(k.check(FlxKey.X)) {
+  //      return true;
+  //    }
+    if(GuiKey.bg1.buttonB.justReleased){
       return true;
-    }*/
-    return false;
+    }
+    /*if(GuiKey.bUp == true){
+      GuiKey.bUp = false;
+        return true;
+      }*/
+      return false;
   }
   public static function checkC(k:FlxKeyList):Bool {
 //    if(k.check(FlxKey.SHIFT)) {
@@ -312,14 +327,14 @@ class Key {
 //    if(k.check(FlxKey.X)) {
 //      return true;
 //    }
-	if(GuiKey.bg1.buttonC.justReleased){
-		return true;
-	}
-	/*if(GuiKey.bUp == true){
-	  GuiKey.bUp = false;
+    if(GuiKey.bg1.buttonC.justReleased){
       return true;
-    }*/
-    return false;
+    }
+    /*if(GuiKey.bUp == true){
+      GuiKey.bUp = false;
+        return true;
+      }*/
+      return false;
   }
 
   public static function checkX(k:FlxKeyList):Bool {

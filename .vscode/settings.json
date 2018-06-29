@@ -30,5 +30,6 @@
 		"paramFormat": "@param   ${name} ",
 		"returnFormat": "@return  ${type}"
 	},
-	"git.ignoreLimitWarning": true
+	"haxe.enableCodeLens": true,
+	"haxe.buildCompletionCache": true
 }

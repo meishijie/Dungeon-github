@@ -27,7 +27,7 @@ class GuiItemDetail extends FlxSpriteGroup {
   private var _orgY:Float = 0;
 
   /**
-   * コンストラクタ
+   * コンストラクタ 物品详情
    **/
   public function new(X:Float, Y:Float) {
     _orgY = Y;
@@ -35,12 +35,12 @@ class GuiItemDetail extends FlxSpriteGroup {
 
     // 背景
     var back = new FlxSprite(0, 0, "assets/images/ui/window200x100.png");
-    back.color = MyColor.DETAIL_FRAME;
+    //back.color = MyColor.DETAIL_FRAME;
     this.add(back);
 
-    // 説明文テキスト
+    // 说明文字
     _txt = new FlxText(MSG_X, MSG_Y, TXT_WIDTH-16);
-    _txt.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE);
+    _txt.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE_S);
     this.add(_txt);
   }
 
@@ -65,7 +65,7 @@ override public function update(elapsed:Float):Void
   }
 
   /**
-   * 選択中のアイテムを設定する
+   * 设置选定的项目
    **/
   public function setSelectedItem(item:ItemData) {
     _updateText(item);

@@ -1,0 +1,35 @@
+#automatically generated do not edit
+#@date Wed Jun 27 2018 09:15:26 GMT+0800 (中国标准时间)
+-main ApplicationMain
+-cp d:\haxetoolkit\haxe\lib\flixel\4,4,2\
+-D flixel=4.4.2
+--macro openfl._internal.utils.ExtraParams.include()
+-cp d:\haxetoolkit\haxe\lib\openfl\8,2,2\src\
+-D openfl=8.2.2
+--macro lime.Lib.extraParams()
+-cp d:\haxetoolkit\haxe\lib\lime\6,4,0\
+-D lime=6.4.0
+-cp d:\haxetoolkit\haxe\lib\flixel-addons\2,6,0\
+-D flixel-addons=2.6.0
+-cp d:\users\higou\haxeflixel\dungeonmayun\source\
+-D lime-openal
+-D tools=6.4.0
+-D lime-cairo
+-D NAPE_NO_INLINE
+-D no-compilation
+-D lime-opengl
+-D native
+-D lime-native
+-D lime-vorbis
+-D lime-curl
+-D openfl-native
+-D lime-cffi
+-D windows
+-D desktop
+--remap flash:openfl
+--macro flixel.system.macros.FlxDefines.run()
+-cp d:\users\higou\haxeflixel\dungeonmayun\export\neko\haxe\
+-neko export/neko/obj/ApplicationMain.n
+--macro keep("Main")
+-debug
+-cp c:\users\higou\appdata\local\temp\74c64533f1666427311c7857f7f90b7803e6502b

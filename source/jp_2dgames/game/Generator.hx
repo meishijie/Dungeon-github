@@ -183,7 +183,7 @@ class Generator {
           Enemy.bEffectStart = true;
 
         case Field.ITEM:
-          // アイテムを生成
+          // アイテムを生成生成项目
           var itemid = gItem.generate();
           if(itemid == 0) {
             trace("Warning: Invalid item_appear.csv");
@@ -191,7 +191,7 @@ class Generator {
           }
           var param = GenerateInfo.generateItemParam(itemid);
           if(FlxG.random.bool(2)) {
-            // 2%でお金出現
+            // 2%でお金出現2 2%钱出现
             var max = 100 + Global.getFloor() * 20;
             if(max > 500) {
               max = 500;
@@ -244,7 +244,7 @@ class Generator {
   public static function checkRandomEnemy(csv:Csv, layer:Layer2D):Void {
 
     if(Global.isMapExtra()) {
-      // 特殊ステージでは敵は出現しない
+      // 特殊ステージでは敵は出現しない在特殊舞台上没有敌人出现
       return;
     }
 

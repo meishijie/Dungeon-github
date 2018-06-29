@@ -12,7 +12,7 @@ private enum ANodeStatus {
 }
 
 /**
- * A-starノード
+ * A星节点
  **/
 class ANode {
   // ステータス
@@ -102,7 +102,7 @@ class ANode {
   }
 
   /**
-   * パスを取得する
+   *获取路径
    **/
   public function getPath(pList:Array<FlxPoint>):Array<FlxPoint> {
     pList.push(FlxPoint.get(x, y));
@@ -163,19 +163,19 @@ class AStar {
   }
 
   /**
-   * ノードを生成する
+   * 生成一个节点
    **/
   public function getNode(x:Int, y:Int):ANode {
     var idx = _layer.toIdx(x, y);
     if(_pool.exists(idx)) {
-      // すでに存在しているのでプーリングから取得
+      // 从Pooling获取，因为它已经存在
       return _pool[idx];
     }
 
-    // ないので新規作成
+    // 由于没有新的创造
     var node = new ANode(x, y);
     _pool[idx] = node;
-    // ヒューリスティック・コストを計算する
+    // 计算启发式成本
     node.computeHeuristic(_allowdiag, _xgoal, _ygoal);
     return node;
   }
@@ -195,20 +195,20 @@ class AStar {
   }
 
   /**
-   * 指定の座標にあるノードをオープンする
+   * 在指定的坐标处打开节点
    **/
   public function openNode(x:Int, y:Int, cost:Int, parent:ANode):ANode {
-    // 座標をチェックする
+    // 检查坐标
     if(_layer.check(x, y) == false) {
       // 領域外
       return null;
     }
     if(_layer.get(x, y) != CHIP_NONE) {
-      // 通過できない
+      // 不能通过
       return null;
     }
 
-    // ノードを取得する
+    // 获得一个节点
     var node = getNode(x, y);
     if(node.isNone() == false) {
       // すでにOpenしているので何もしない

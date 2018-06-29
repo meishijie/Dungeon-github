@@ -157,7 +157,7 @@ class Npc extends Actor {
   }
 
   /**
-   * オーブ獲得
+   * オーブ獲得宝珠获得
    **/
   public function getOrb():Bool {
     var itemid = typeToItemID(_id);
@@ -192,7 +192,7 @@ class Npc extends Actor {
   }
 
   /**
-   * 更新
+   * 更新单独写的更新方法
    **/
   override public function proc():Void {
     super.proc();

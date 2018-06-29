@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vbox width="100%" height="100%">
+	<style>
+		#box {
+			backgroundColor: 0xEEEEEE;
+			paddingLeft: 5;
+			paddingRight: 5;
+			paddingTop: 5;
+			paddingBottom: 5;
+			borderColor: 0x888888;
+			borderSize: 1;
+			spacingX: 5;
+			spacingY: 5;
+		}
+	</style>
+	
+	<text text="Horizontal:" />
+	<hbox id="box">
+		<button width="50" height="50" />
+		<button width="50" height="50" />
+		<button width="50" height="50" />
+	</hbox>
+	<hbox id="box" width="100%">
+		<button width="50" height="50" />
+		<button width="100%" height="50" />
+		<button width="50" height="50" />
+	</hbox>
+	
+	<text text="Vertical:" />
+	<hbox height="100%">
+		<vbox id="box">
+			<button width="50" height="50" />
+			<button width="50" height="50" />
+			<button width="50" height="50" />
+		</vbox>
+		<vbox id="box" height="100%">
+			<button width="50" height="50" />
+			<button width="50" height="100%" />
+			<button width="50" height="50" />
+		</vbox>
+		
+		<vbox>
+			<text text="Grid:" />
+			<grid columns="3" id="box">
+				<button width="50" height="50" />
+				<button width="50" height="50" />
+				<button width="50" height="50" />
+				<button width="50" height="50" />
+				<button width="50" height="50" />
+				<button width="50" height="50" />
+				<button width="50" height="50" />
+				<button width="50" height="50" />
+				<button width="50" height="50" />
+			</grid>
+		</vbox>
+	</hbox>
+</vbox>

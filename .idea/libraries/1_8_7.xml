@@ -1,0 +1,35 @@
+<component name="libraryTable">
+  <library name="1,8,7" type="Haxe">
+    <CLASSES>
+      <root url="file://$USER_HOME$/Documents/haxelib/actuate/1,8,7" />
+      <root url="file://$USER_HOME$/Documents/haxelib/flixel-addons/2,3,0" />
+      <root url="file://$USER_HOME$/Documents/haxelib/flixel-demos/2,3,0" />
+      <root url="file://$USER_HOME$/Documents/haxelib/flixel-templates/2,2,2" />
+      <root url="file://$USER_HOME$/Documents/haxelib/flixel-ui/2,2,0" />
+      <root url="file://$USER_HOME$/Documents/haxelib/flixel/4,2,1" />
+      <root url="file://$USER_HOME$/Documents/haxelib/haxeui/1,8,21" />
+      <root url="file://$USER_HOME$/Documents/haxelib/hscript/2,0,7" />
+      <root url="file://$USER_HOME$/Documents/haxelib/hxcpp/3,4,49" />
+      <root url="file://$USER_HOME$/Documents/haxelib/lime-samples/3,4,0" />
+      <root url="file://$USER_HOME$/Documents/haxelib/lime/2,9,1" />
+      <root url="file://$USER_HOME$/Documents/haxelib/openfl/3,6,1" />
+      <root url="file://$USER_HOME$/Documents/haxelib/openfl/4,8,1" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$USER_HOME$/Documents/haxelib/actuate/1,8,7" />
+      <root url="file://$USER_HOME$/Documents/haxelib/flixel-addons/2,3,0" />
+      <root url="file://$USER_HOME$/Documents/haxelib/flixel-demos/2,3,0" />
+      <root url="file://$USER_HOME$/Documents/haxelib/flixel-templates/2,2,2" />
+      <root url="file://$USER_HOME$/Documents/haxelib/flixel-ui/2,2,0" />
+      <root url="file://$USER_HOME$/Documents/haxelib/flixel/4,2,1" />
+      <root url="file://$USER_HOME$/Documents/haxelib/haxeui/1,8,21" />
+      <root url="file://$USER_HOME$/Documents/haxelib/hscript/2,0,7" />
+      <root url="file://$USER_HOME$/Documents/haxelib/hxcpp/3,4,49" />
+      <root url="file://$USER_HOME$/Documents/haxelib/lime-samples/3,4,0" />
+      <root url="file://$USER_HOME$/Documents/haxelib/lime/2,9,1" />
+      <root url="file://$USER_HOME$/Documents/haxelib/openfl/3,6,1" />
+      <root url="file://$USER_HOME$/Documents/haxelib/openfl/4,8,1" />
+    </SOURCES>
+  </library>
+</component>

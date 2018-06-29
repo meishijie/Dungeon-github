@@ -178,11 +178,7 @@ class Dialog extends FlxGroup {
     _group.add(_cursor);
     _group.forEach(function(spr:FlxSprite){
         spr.scrollFactor.set(0, 0);
-<<<<<<< Updated upstream
-        spr.camera = PlayState.hudCam;
-=======
         //spr.camera = PlayState.hudCam;
->>>>>>> Stashed changes
     });
     add(_group);     
     Snd.playSe("menu");

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<scrollview width="300" height="100%">
+	
+	<vbox width="100%" height="500" style="spacing:0;padding:0" >
+		
+		<expandablepanel width="100%" text="Panel 1" style="spacingY:5">
+			<button text="Button 1" />
+			<button text="Button 2" />
+			<button text="Button 3" />
+			<button text="Button 4" />
+		</expandablepanel>
+		
+		<expandablepanel width="100%" text="Image Panel" style="spacingY:5">
+			<scrollview width="100%" height="300">
+				<image resource="assets/slinky.jpg" />
+			</scrollview>
+		</expandablepanel>
+		
+		<expandablepanel width="100%" text="List Panel" startExpanded="false">
+			<listview width="100%" height="300">
+				<array>
+					Item 1, Item 2, Item 3, Item 4, Item 5, Item 6, Item 7, Item 8, Item 9, Item 10
+				</array>
+			</listview>
+		</expandablepanel>
+		
+		<expandablepanel width="100%" text="Panel 4" startExpanded="false" >
+			<button text="Button 5" />
+		</expandablepanel>
+		
+	</vbox>
+	
+</scrollview>

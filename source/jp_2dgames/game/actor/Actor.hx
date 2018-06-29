@@ -46,15 +46,15 @@ enum State {
  * 行動タイプ
  **/
 enum Action {
-  None;          // なし
-  Standby;       // 待機中
-  InventoryOpen; // インベントリを開く
-  FootMenu;      // 足下メニュー
+  None;          // なし无
+  Standby;       //待机中
+  InventoryOpen; // 库存打开
+  FootMenu;      // 脚下菜单
   Act;           // 攻撃
   ActExec;       // 攻撃実行中
   Move;          // 移動
   MoveExec;      // 移動実行中
-  TurnEnd;       // ターン終了
+  TurnEnd;       // 回合结束
 }
 
 /**
@@ -62,60 +62,60 @@ enum Action {
  **/
 class Actor extends FlxSprite {
 
-  // 1マス進むのにかかるフレーム数
+  // 1集体前进却花费框架
   private static inline var TIMER_WALK:Int = 12;
-  // ダメージアニメーションのフレーム数
+  // 伤害动画框架数
   private static inline var TIMER_DAMAGE:Int = 8;
-  // バッドステータスが有効なターン数
-  private static inline var BADSTATUS_TURN:Int           = 10; // 基本は10ターン有効
-  private static inline var BADSTATUS_TURN_PARALYSIS:Int = 3; //  麻痺は3ターンのみ
-  private static inline var BADSTATUS_TURN_POISON:Int    = 6; //  毒は6ターンのみ
-  private static inline var BADSTATUS_TURN_CONFUSION:Int = 5; //  混乱は5ターンのみ
-  // 毒で減るHPの割合
+  // 坏状态有效的回合数
+  private static inline var BADSTATUS_TURN:Int           = 10; // 基本是10回合有效
+  private static inline var BADSTATUS_TURN_PARALYSIS:Int = 3; //  麻痹3回合只
+  private static inline var BADSTATUS_TURN_POISON:Int    = 6; //  毒是6
+  private static inline var BADSTATUS_TURN_CONFUSION:Int = 5; //  混乱只有5回合
+  // 毒减少HP的比例
   private static inline var DAMAGE_POISON:Int = 5; // 5%
 
-  // 次のフロアへワープすると判定する座標
+  // 判断向下一层移动的坐标
   public static inline var WARP_NEXT_FLOOR_POS:Int = -1; // (-1, -1)に存在したら次のフロアへワープ
 
   // 状態
   private var _state:State;
   private var _stateprev:State; // 1つ前の状態
   private var _tMove:Int = 0;
-  // 向き
+  // 方向
   private var _dir:Dir = Dir.Down;
-  // アニメーション状態
+  // 动画状态
   private var _bStop = true;
-  // ダメージ揺らし用のタイマー
+  // 伤害着用的计时器
   private var _tShake:Int = 0;
-  // 移動元座標
+  // 移動原座標
   private var _xprev:Float = 0;
   private var _yprev:Float = 0;
-  // 移動先座標
+  // 移動下一个座標
   private var _xnext:Float = 0;
   private var _ynext:Float = 0;
   // 行動先座標
   private var _xtarget:Int = 0;
   private var _ytarget:Int = 0;
-  // ステータスパラメータ
+  // 状态参数
   private var _params:Params;
-  // 拡張パラメータ (一時的なパラメータの増減値)
+  // 扩展参数（临时参数的增减值）
   private var _extParams:Params;
   // ID
   private var _id:Int = 1;
   // 名前
   private var _name:String = "";
-  // バッドステータス
+  // 坏状态
   private var _badstatus:BadStatus = BadStatus.None;
-  // 早歩き
+  // 跑
   private var _bRun:Bool = false;
 
-  // プロパティ
-  // チップ座標(X)
+  // 属性
+  // 芯片坐标（X）
   public var xchip(get_xchip, never):Int;
   private function get_xchip() {
     return Std.int(_xnext);
   }
-  // チップ座標(Y)
+  //芯片坐标（Y）坐标
   public var ychip(get_ychip, never):Int;
 
   private function get_ychip() {
@@ -195,7 +195,7 @@ class Actor extends FlxSprite {
   }
 
   /**
-   * HPを最大HPに丸める
+   * HPを最大HPに丸めるHP最大HP抟
    **/
   public function trancateHp():Void {
     if(_params.hp > getHpMax()) {
@@ -210,13 +210,13 @@ class Actor extends FlxSprite {
     }
 
     if(bEffect) {
-      // エフェクト再生開始
+      // エフェクト再生開始 再生开始效果
       ParticleRecovery.start(x, y-height/2, val);
     }
   }
 
   public function addHp2(val:Int, bEffect=true):Int {
-    // パーセンテージで回復
+    // パーセンテージで回復百分比恢复
     var val2 = getHpMax() * val / 100;
     if(val2 < 1) {
       val2 = 1;
@@ -232,7 +232,7 @@ class Actor extends FlxSprite {
       _params.hp = 0;
       return true;
     }
-    // まだ生きている
+    // まだ生きている还活着
     return false;
   }
   // 最大HP

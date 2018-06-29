@@ -1,0 +1,276 @@
+package haxe.ui.toolkit.controls;
+
+import haxe.ui.toolkit.core.Screen;
+import openfl.events.Event;
+import openfl.events.MouseEvent;
+import haxe.ds.StringMap;
+import haxe.ui.toolkit.core.base.VerticalAlign;
+import haxe.ui.toolkit.core.StateComponent;
+import haxe.ui.toolkit.core.interfaces.IClonable;
+import haxe.ui.toolkit.layout.HorizontalLayout;
+import haxe.ui.toolkit.style.Style;
+
+/**
+ Simple two state option control (supports groups)
+ **/
+
+@:event("UIEvent.CHANGE", "Dispatched when the value of the option box is modified") 
+class OptionBox extends StateComponent implements IClonable<OptionBox> {
+	/**
+	 Optionbox state is "normal" (default state)
+	 **/
+	public static inline var STATE_NORMAL = "normal";
+	/**
+	 Optionbox state is "over"
+	 **/
+	public static inline var STATE_OVER = "over";
+	/**
+	 Optionbox state is "down"
+	 **/
+	public static inline var STATE_DOWN = "down";
+	
+	private var _value:OptionBoxValue;
+	private var _label:Text;
+	
+	private var _group:String;
+	private static var _groups:StringMap<Array<OptionBox>>;
+	
+	private var _down:Bool = false;
+	
+	public function new() {
+		super();
+		sprite.buttonMode = true;
+		sprite.useHandCursor = true;
+		if (_groups == null) {
+			_groups = new StringMap<Array<OptionBox>>();
+		}
+		
+		_value = new OptionBoxValue();
+		_value.interactive = false;
+		_label = new Text();
+		_layout = new HorizontalLayout();
+		_autoSize = true;
+	}
+	
+	override public function dispose():Void {
+		
+		// removes this component groups list.
+		if (group != null) {
+			var arr:Array<OptionBox> = _groups.get(_group);
+			arr.remove(this);
+		}
+		
+		super.dispose();
+	}
+	
+	//******************************************************************************************
+	// Overrides
+	//******************************************************************************************
+	private override function initialize():Void {
+		super.initialize();
+
+		_value.verticalAlign = VerticalAlign.CENTER;
+		addChild(_value);
+		addChild(_label);
+		
+		addEventListener(MouseEvent.CLICK, function(e) {
+			if (selected == false) {
+				selected = !selected;
+			}
+		});
+		
+		addEventListener(MouseEvent.MOUSE_OVER, _onMouseOver);
+		addEventListener(MouseEvent.MOUSE_OUT, _onMouseOut);
+		addEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown);
+		addEventListener(MouseEvent.MOUSE_UP, _onMouseUp);
+	}
+	
+	//******************************************************************************************
+	// Event handlers
+	//******************************************************************************************
+	private function _onMouseOver(event:MouseEvent):Void {
+		if (event.buttonDown == false) {
+			state = STATE_OVER;
+		} else if (_down == true) {
+			state = STATE_DOWN;
+		}
+	}
+	
+	private function _onMouseOut(event:MouseEvent):Void {
+		if (event.buttonDown == false) {
+			state = STATE_NORMAL;
+		} else {
+			//Screen.instance.addEventListener(MouseEvent.MOUSE_UP, _onMouseUp);
+		}
+	}
+	
+	private function _onMouseDown(event:MouseEvent):Void {
+		_down = true;
+		state = STATE_DOWN;
+		Screen.instance.addEventListener(MouseEvent.MOUSE_UP, _onMouseUp);
+	}
+	
+	private function _onMouseUp(event:MouseEvent):Void {
+		_down = false;
+		if (hitTest(event.stageX, event.stageY)) {
+			#if !(android)
+				state = STATE_OVER;
+			#else
+				state = STATE_NORMAL;
+			#end
+		} else {
+			state = STATE_NORMAL;
+		}
+
+		Screen.instance.removeEventListener(MouseEvent.MOUSE_UP, _onMouseUp);
+	}
+	
+	//******************************************************************************************
+	// Component overrides
+	//******************************************************************************************
+	private override function get_text():String {
+		return _label.text;
+	}
+	
+	private override function set_text(value:String):String {
+		value = super.set_text(value);
+		_label.text = value;
+		return value;
+	}
+	
+	//******************************************************************************************
+	// Component getters/setters
+	//******************************************************************************************
+	/**
+	 Defines whether the option is checked or not, if set to `true` then other options of the same group will be deselected.
+	 **/
+	@:clonable
+	public var selected(get, set):Bool;
+	/**
+	 Defines the group for this option. Options belonging to the same group will only ever have a single option selected.
+	 **/
+	@:clonable
+	public var group(get, set):String;
+	
+	private function get_selected():Bool {
+		return (_value.value == "selected");
+	}
+	
+	private function set_selected(value:Bool):Bool {
+		if (selected == value) {
+			return value;
+		}
+		
+		if (_group != null && value == false) { // dont allow false if no other group selection
+			var arr:Array<OptionBox> = _groups.get(_group);
+			var hasSelection:Bool = false;
+			if (arr != null) {
+				for (option in arr) {
+					if (option != this && option.selected == true) {
+						hasSelection = true;
+						break;
+					}
+				}
+			}
+			if (hasSelection == false) {
+				return value;
+			}
+		}
+		
+		_value.value = (value == true) ? "selected" : "unselected";
+		if (_group != null && value == true) { // set all the others in group
+			var arr:Array<OptionBox> = _groups.get(_group);
+			if (arr != null) {
+				for (option in arr) {
+					if (option != this) {
+						option.selected = false;
+					}
+				}
+			}
+		}
+		
+		var event:Event = new Event(Event.CHANGE);
+		dispatchEvent(event);
+		
+		return value;
+	}
+	
+	private function get_group():String {
+		return _group;
+	}
+	
+	private function set_group(value:String):String {
+		if (value != null) {
+			var arr:Array<OptionBox> = _groups.get(value);
+			if (arr != null) {
+				arr.remove(this);
+			}
+		}
+		
+		_group = value;
+		var arr:Array<OptionBox> = _groups.get(value);
+		if (arr == null) {
+			arr = new Array<OptionBox>();
+		}
+		
+		if (optionInGroup(value, this) == false) {
+			arr.push(this);
+		}
+		_groups.set(value, arr);
+		
+		return value;
+	}
+	
+	//******************************************************************************************
+	// Helpers
+	//******************************************************************************************
+	private static function optionInGroup(value:String, option:OptionBox):Bool {
+		var exists:Bool = false;
+		var arr:Array<OptionBox> = _groups.get(value);
+		if (arr != null) {
+			for (test in arr) {
+				if (test == option) {
+					exists = true;
+					break;
+				}
+			}
+		}
+		return exists;
+	}
+	
+	//******************************************************************************************
+	// IStyleable
+	//******************************************************************************************
+	public override function applyStyle():Void {
+		super.applyStyle();
+		
+		// apply style to label
+		if (_label != null) {
+			var labelStyle:Style = new Style();
+			if (_baseStyle != null) {
+				labelStyle.fontName = _baseStyle.fontName;
+				labelStyle.fontSize = _baseStyle.fontSize;
+				labelStyle.fontEmbedded = _baseStyle.fontEmbedded;
+				labelStyle.color = _baseStyle.color;
+			}
+			_label.baseStyle = labelStyle;
+		}
+	}
+	
+	//******************************************************************************************
+	// IState
+	//******************************************************************************************
+	private override function get_states():Array<String> {
+		return [STATE_NORMAL, STATE_OVER, STATE_DOWN];
+	}
+}
+
+@:dox(hide)
+class OptionBoxValue extends Value implements IClonable<OptionBoxValue> {
+	public function new() {
+		super();
+		_value = "unselected";
+		addValue("selected");
+		addValue("unselected");
+	}
+}

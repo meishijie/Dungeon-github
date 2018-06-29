@@ -10,6 +10,8 @@ import flixel.group.FlxSpriteGroup;
 import flixel.FlxSprite;
 import flixel.text.FlxText;
 import flixel.FlxG;
+import flixel.util.FlxColor;
+
 /**
  * 状態
  **/
@@ -62,12 +64,19 @@ class InventoryCommand extends FlxSpriteGroup {
    **/
   public function new(X:Float, Y:Float, cbFunc:Int->Int, items:Array<Int>) {
     var ofsY = Y;
-    super(X, Y+ofsY);
+    super(X-5, Y + ofsY);
+	
+	var _invBG = new FlxSprite(0, 0);
+	_invBG.makeGraphic(100, 100, FlxColor.BLACK);
+	_invBG.x -= 0;
+	_invBG.y -= 0 ;
+	_invBG.alpha = 0.6;
+	//this.add(_invBG);
     //FlxTween.tween(this, {y:Y}, 0.3, {ease:FlxEase.expoOut});
     // 背景枠
     _bgList = new Array<FlxSprite>();
     for(i in 0...items.length) {
-      var bg = new FlxSprite(0, i * DY, "assets/images/ui/itemcommand.png");
+      var bg = new FlxSprite(0, i * DY, "assets/images/ui/itemcommandBg.png");
       bg.color = MyColor.LISTITEM_ENABLE;
       if(items[i] == UIText.MENU_NOUSE) {
         // 使うことができない状態
@@ -79,7 +88,7 @@ class InventoryCommand extends FlxSpriteGroup {
 
     // カーソル
     _cursor = new FlxSprite(0, 0, "assets/images/ui/itemcommand.png");
-    _cursor.color = MyColor.COMMAND_CURSOR;
+    //_cursor.color = MyColor.COMMAND_CURSOR;
     this.add(_cursor);
 
     // メニューテキスト設定
@@ -89,7 +98,7 @@ class InventoryCommand extends FlxSpriteGroup {
       var px = 0;
       var py = 0 + (i * DY);
       var txt = new FlxText(px, py, 0, WIDTH);
-      txt.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE);
+      txt.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE_S);
       if(item == UIText.MENU_NOUSE) {
         // 使うことができない状態
         item = UIText.MENU_USE;

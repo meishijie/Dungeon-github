@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	<!-- NMML reference: https://gist.github.com/1763850 -->
+	
+	<!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
+	<meta package="haxe.ui.toolkit" version="1.0.0" company="" title="haxeui"/>
+	
+	<!-- output -->
+	<app file="haxeui" main="haxe.ui.Main" path="bin" preloader="haxe.ui.HaxeUIPreloader"/>
+	
+	<window fps="60" background="#FFFFFF"/>
+	<window width="800" unless="mobile" height="600"/>
+	<window antialiasing="0" orientation="landscape" if="cpp" vsync="false"/>
+
+	<assets path="assets" rename="assets"/>
+	
+	<!-- classpath, haxe libs -->
+	<source path="haxe"/>
+	<classpath name="assets"/>
+
+	<haxedef name="dom"/>
+	
+	<haxelib name="openfl" version="3.5.2"/>
+	<haxelib name="actuate" version="1.8.6"/>
+	<haxelib name="svg" version="1.0.8"/>
+	<haxelib name="hscript" version="2.0.5"/>
+	
+	<!-- for dconsole -->
+	<!--
+	<haxedef name="HXUI_CONSOLE" />
+	<haxelib name="dconsole" />
+	-->
+
+	<assets path="assets/styles" rename="styles"/>
+	<assets path="assets/fonts" rename="fonts"/>
+	
+	<!-- optimize output -->
+	<!--
+	<haxeflag name="-D next" />
+	<haxeflag name="-dce std" if="haxe3" />
+	-->
+	<!--haxeflag name="-xml" value="docs/haxe-ui-toolkit.xml" /-->
+</project>

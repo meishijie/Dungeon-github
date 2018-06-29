@@ -76,7 +76,7 @@ class NightmareMgr {
   }
 
   /**
-   * ナイトメアの出現を遅らせる
+   * ナイトメアの出現を遅らせる推迟恶梦的出现
    **/
   public static function delay(turn:Int):Void {
     instance._delay(turn);
@@ -111,7 +111,7 @@ class NightmareMgr {
    * ナイトメア特殊スキルを取得する
    **/
   public static function getSkill():NightmareSkill {
-    // TODO: テスト用にスキルを有効化
+    // TODO: テスト用にスキルを有効化测试用技能
 //    return NightmareSkill.Unknown;
 
     if(Exists() == false) {
@@ -235,7 +235,7 @@ class NightmareMgr {
   }
 
   /**
-   * 次のターンに進む
+   * 次のターンに進む进入下一个回合
    **/
   public static function nextTurn(layer:Layer2D):Void {
     instance._nextTurn(layer);
@@ -280,7 +280,7 @@ class NightmareMgr {
             }
 
             if(getSkill() == NightmareSkill.Unknown) {
-              // すべての敵をアンノウン化
+              // すべての敵をアンノウン化未知所有的敌人化
               var eid = getEnemyID();
               Enemy.parent.forEachAlive(function(e:Enemy) {
                 if(e.id != eid) {
@@ -306,8 +306,8 @@ class NightmareMgr {
   }
 
   /**
-   * ナイトメアのレベル上昇
-   * @param bDefeat 倒したフラグ
+   * ナイトメアのレベル上昇恶梦水平上升
+   * @param bDefeat 倒したフラグ打倒的标志
    **/
   private function _levelUp(bDefeat:Bool):Void {
     if(_csv.hasId(_lv+1)) {
@@ -326,7 +326,7 @@ class NightmareMgr {
       // BGMを元に戻す
       Snd.playMusicPrev();
 
-      // 倒したフラグを立てる
+      // boss倒下 设置可以进入奖励层
       Global.setNightmareDefeat(true);
     }
 
@@ -341,7 +341,7 @@ class NightmareMgr {
   }
 
   /**
-   * 次のフロアに進むときの処理
+   * 次のフロアに進むときの処理前进时的处理
    **/
   public static function nextFloor() {
     instance._nextFloor();

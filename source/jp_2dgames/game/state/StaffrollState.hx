@@ -15,7 +15,7 @@ import flixel.FlxG;
 import flixel.FlxState;
 
 /**
- * スタッフロール画面
+ * スタッフロール画面工作人员表画面
  **/
 class StaffrollState extends FlxState {
 

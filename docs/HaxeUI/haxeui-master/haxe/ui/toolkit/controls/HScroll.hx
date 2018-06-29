@@ -1,0 +1,393 @@
+package haxe.ui.toolkit.controls;
+
+import openfl.events.Event;
+import openfl.events.MouseEvent;
+import openfl.events.TimerEvent;
+import openfl.geom.Point;
+import openfl.utils.Timer;
+import haxe.ui.toolkit.core.interfaces.IClonable;
+import haxe.ui.toolkit.core.interfaces.IDisplayObject;
+import haxe.ui.toolkit.core.interfaces.InvalidationFlag;
+import haxe.ui.toolkit.core.interfaces.IScrollable;
+import haxe.ui.toolkit.core.Screen;
+import haxe.ui.toolkit.events.UIEvent;
+import haxe.ui.toolkit.layout.DefaultLayout;
+
+/**
+ Horizontal scrollbar control
+ **/
+
+class HScroll extends Scroll implements IScrollable implements IClonable<HScroll> {
+	private var _pos:Float = 0;
+	private var _min:Float = 0;
+	private var _max:Float = 100;
+	private var _pageSize:Float = 0;
+	private var _incrementSize:Float = 20;
+	
+	private var _deincButton:Button;
+	private var _incButton:Button;
+	private var _thumb:Button;
+	
+	private var _mouseDownOffset:Float = -1; // the offset from the thumb xpos where the mouse event was detected
+
+	private var _scrollDirection:Int = 0;
+	private var _scrollTimer:Timer;
+
+	private var _hasButtons:Bool = true;
+	
+	public function new() {
+		super();
+		_layout = new HScrollLayout();
+	}
+	
+	//******************************************************************************************
+	// Overrides
+	//******************************************************************************************
+	private override function preInitialize():Void {
+		super.preInitialize();
+		
+		if (_baseStyle != null) {
+			_hasButtons = _baseStyle.hasButtons;
+		}
+	}
+	
+	private override function initialize():Void {
+		super.initialize();
+
+		if (_hasButtons == true) {
+			_deincButton = new Button();
+			_deincButton.autoSize = false;
+			_deincButton.iconPosition = "center";
+			_deincButton.percentHeight = 100;
+			_deincButton.width = layout.innerHeight;
+			_deincButton.id = "deinc";
+			_deincButton.styleName = "left";
+			_deincButton.addEventListener(MouseEvent.MOUSE_DOWN, _onDeinc);
+			addChild(_deincButton);
+
+			_incButton = new Button();
+			_incButton.autoSize = false;
+			_incButton.iconPosition = "center";
+			_incButton.percentHeight = 100;
+			_incButton.width = layout.innerHeight;
+			_incButton.id = "inc";
+			_incButton.styleName = "right";
+			_incButton.addEventListener(MouseEvent.MOUSE_DOWN, _onInc);
+			addChild(_incButton);
+		}
+		
+		_thumb = new Button();
+		_thumb.iconPosition = "center";
+		_thumb.autoSize = false;
+		_thumb.width = 50;
+		_thumb.percentHeight = 100;
+		_thumb.id = "thumb";
+		_thumb.styleName = "thumb";
+		_thumb.remainPressed = true;
+		_thumb.addEventListener(MouseEvent.MOUSE_DOWN, _onThumbMouseDown);
+		addChild(_thumb);
+		
+		addEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown);
+	}
+	
+	//******************************************************************************************
+	// Event handlers
+	//******************************************************************************************
+	private function _onThumbMouseDown(event:MouseEvent):Void {
+		var ptStage:Point = new Point(event.stageX, event.stageY);
+		_mouseDownOffset = ptStage.x - _thumb.x;
+
+		Screen.instance.addEventListener(MouseEvent.MOUSE_UP, _onScreenMouseUp);
+		Screen.instance.addEventListener(MouseEvent.MOUSE_MOVE, _onScreenMouseMove);
+
+		dispatchEvent(new UIEvent(UIEvent.SCROLL_START));
+		
+		event.stopImmediatePropagation();
+		event.stopPropagation();
+	}
+	
+	private function _onScreenMouseMove(event:MouseEvent):Void {
+		var xpos:Float = event.stageX - _mouseDownOffset;
+		var minX:Float = 0;
+		if (_deincButton != null) {
+			minX = _deincButton.width + layout.spacingX;
+		}
+		var maxX:Float = layout.usableWidth - _thumb.width;
+		if (_deincButton != null) {
+			maxX += _deincButton.width + layout.spacingX;
+		}
+		if (xpos < minX) {
+			xpos = minX;
+		} else if (xpos > maxX) {
+			xpos = maxX;
+		}
+		
+		var ucx:Float = layout.usableWidth;
+		ucx -= _thumb.width;
+		var m:Int = Std.int(max - min);
+		var v:Float = xpos - minX;
+		var newValue:Float = min + ((v / ucx) * m);
+		pos = Std.int(newValue);
+	}
+	
+	private function _onScreenMouseUp(event:MouseEvent):Void {
+		_mouseDownOffset = -1;
+		if (_scrollTimer != null) {
+			_scrollTimer.stop();
+		}
+
+		dispatchEvent(new UIEvent(UIEvent.SCROLL_STOP));
+
+		Screen.instance.removeEventListener(MouseEvent.MOUSE_UP, _onScreenMouseUp);
+		Screen.instance.removeEventListener(MouseEvent.MOUSE_MOVE, _onScreenMouseMove);
+	}
+	
+	private function _onDeinc(event:MouseEvent):Void {
+		dispatchEvent(new UIEvent(UIEvent.SCROLL_START));
+		deincrementValue();
+		_scrollDirection = 0;
+		Screen.instance.addEventListener(MouseEvent.MOUSE_UP, _onScreenMouseUp);
+		if (_scrollTimer == null) {
+			_scrollTimer = new Timer(50, 1);
+			_scrollTimer.addEventListener(TimerEvent.TIMER_COMPLETE, _onScrollTimerComplete);
+		}
+		_scrollTimer.reset();
+		_scrollTimer.start();
+		
+		event.stopImmediatePropagation();
+		event.stopPropagation();
+	}
+	
+	private function _onInc(event:MouseEvent):Void {
+		dispatchEvent(new UIEvent(UIEvent.SCROLL_START));
+		incrementValue();
+		_scrollDirection = 1;
+		Screen.instance.addEventListener(MouseEvent.MOUSE_UP, _onScreenMouseUp);
+		if (_scrollTimer == null) {
+			_scrollTimer = new Timer(50, 1);
+			_scrollTimer.addEventListener(TimerEvent.TIMER_COMPLETE, _onScrollTimerComplete);
+		}
+		_scrollTimer.reset();
+		_scrollTimer.start();
+		
+		event.stopImmediatePropagation();
+		event.stopPropagation();
+	}
+	
+	private function _onScrollTimerComplete(event:TimerEvent):Void {
+		if (_scrollTimer != null) {
+			if (_scrollDirection == 1) {
+				incrementValue();
+			} else if (_scrollDirection == 0) {
+				deincrementValue();
+			}
+			_scrollTimer.reset();
+			_scrollTimer.start();
+		}
+	}
+	
+	private function _onMouseDown(event:MouseEvent):Void {
+		dispatchEvent(new UIEvent(UIEvent.SCROLL_START));
+
+		if (event.localX > _thumb.x) { // page down
+			pos += pageSize;
+		} else { // page up
+			pos -= pageSize;
+		}
+		dispatchEvent(new UIEvent(UIEvent.SCROLL_STOP));
+	}
+	
+	//******************************************************************************************
+	// IScrollable
+	//******************************************************************************************
+	/**
+	 Value of the scrollbar
+	 **/
+	@:clonable
+	public var pos(get, set):Float;
+	/**
+	 Minimum value allowed for the scrollbar
+	 **/
+	@:clonable
+	public var min(get, set):Float;
+	/**
+	 Maximum value allowed for the scrollbar
+	 **/
+	@:clonable
+	public var max(get, set):Float;
+	/**
+	 The size of one page for the scrollbar (affects the size of the thumb)
+	 **/
+	@:clonable
+	public var pageSize(get, set):Float;
+	/**
+	 How much the scrollbar should increment (or deincrement) when using the scroll buttons
+	 **/
+	@:clonable
+	public var incrementSize(get, set):Float;
+	
+	private function get_pos():Float {
+		return _pos;
+	}
+	
+	private function set_pos(value:Float):Float {
+		if (value < _min) {
+			value = _min;
+		}
+		if (value > _max) {
+			value = _max;
+		}
+		if (value != _pos) {
+			_pos = value;
+			dispatchEvent(new Event(Event.CHANGE));
+			dispatchEvent(new UIEvent(UIEvent.SCROLL));
+			invalidate(InvalidationFlag.LAYOUT);
+		}
+		return value;
+	}
+
+	private function get_min():Float {
+		return _min;
+	}
+	
+	private function set_min(value:Float):Float {
+		if (value != _min) {
+			_min = value;
+			if (_pos < _min) {
+				_pos = _min;
+			}
+			invalidate(InvalidationFlag.LAYOUT);
+		}
+		return value;
+	}
+	
+	private function get_max():Float {
+		return _max;
+	}
+	
+	private function set_max(value:Float):Float {
+		if (value != _max) {
+			_max = value;
+			if (_pos > _max) {
+				_pos = _max;
+			}
+			invalidate(InvalidationFlag.LAYOUT);
+		}
+		return value;
+	}
+	
+	private function get_pageSize():Float {
+		return _pageSize;
+	}
+	
+	private function set_pageSize(value:Float):Float {
+		if (value != _pageSize) {
+			_pageSize = value;
+			invalidate(InvalidationFlag.LAYOUT);
+		}
+		return value;
+	}
+
+	private function get_incrementSize():Float {
+		return _incrementSize;
+	}
+	
+	private function set_incrementSize(value:Float):Float {
+		_incrementSize = value;
+		return value;
+	}
+	
+	//******************************************************************************************
+	// Helpers
+	//******************************************************************************************
+	/**
+	 Deincrement the scrollbar value by `incrementSize`
+	 **/
+	public function deincrementValue():Void {
+		pos -= _incrementSize;
+	}
+	
+	/**
+	 Increment the scrollbar value by `incrementSize`
+	 **/
+	public function incrementValue():Void {
+		pos += _incrementSize;
+	}
+}
+
+@:dox(hide)
+class HScrollLayout extends DefaultLayout {
+	public function new() {
+		super();
+	}
+	
+	public override function resizeChildren():Void {
+		super.resizeChildren();
+		
+		var deinc:IDisplayObject =  container.findChild("deinc");
+		if (deinc != null) {
+			deinc.width = innerHeight;
+		}
+
+		var inc:IDisplayObject =  container.findChild("inc");
+		if (inc != null) {
+			inc.width = innerHeight;
+		}
+		
+		var scroll:IScrollable = cast(container, IScrollable);
+		var thumb:IDisplayObject =  container.findChild("thumb");
+		if (thumb != null) {
+			var m:Float = scroll.max - scroll.min;
+			var ucx:Float = usableWidth;
+			var thumbWidth = (scroll.pageSize / m) * ucx;
+			if (thumbWidth < innerHeight) {
+				thumbWidth = innerHeight;
+			} else if (thumbWidth > ucx) {
+				thumbWidth = ucx;
+			}
+			if (thumbWidth > 0 && Math.isNaN(thumbWidth) == false) {
+				thumb.width = thumbWidth;
+			}
+		}
+	}
+	
+	public override function repositionChildren():Void {
+		super.repositionChildren();
+		
+		var deinc:IDisplayObject =  container.findChild("deinc");
+		var inc:IDisplayObject =  container.findChild("inc");
+		if (inc != null) {
+			inc.x = container.width - inc.width - padding.right;
+		}
+
+		var scroll:IScrollable = cast(container, IScrollable);
+		var thumb:IDisplayObject =  container.findChild("thumb");
+		if (thumb != null) {
+			var m:Float = scroll.max - scroll.min;
+			var u:Float = usableWidth;
+			u -= thumb.width;
+			//var x:Float = u / (m / scroll.pos);
+			var x:Float = ((scroll.pos - scroll.min) / m) * u;
+			x += padding.left;
+			if (deinc != null) {
+				x += deinc.width + spacingX;
+				
+			}
+			thumb.x = x;
+		}
+	}
+	
+	// usable height returns the amount of available space for % size components 
+	private override function get_usableWidth():Float {
+		var ucx:Float = innerWidth;
+		var deinc:IDisplayObject =  container.findChild("deinc");
+		var inc:IDisplayObject =  container.findChild("inc");
+		if (deinc != null) {
+			ucx -= deinc.width + spacingX;
+		}
+		if (inc != null) {
+			ucx -= inc.width + spacingX;
+		}
+		return ucx;
+	}
+}

@@ -26,10 +26,10 @@ import flixel.FlxSprite;
 import jp_2dgames.lib.Layer2D;
 
 /**
- * フィールド管理 网格地图管理
+ *   网格地图管理
  **/
 class Field {
-  // グリッドサイズ 网格尺寸
+  // 网格 净大小
   public static inline var GRID_SIZE:Int = 32;
 
   // チップの種類 芯片类型
@@ -57,7 +57,10 @@ class Field {
   public static inline var DOOR3:Int        = 22; // ドア(3)
   public static inline var DOOR5:Int        = 23; // ドア(5)
   public static inline var DOOR7:Int        = 24; // ドア(7)
-
+  public static inline var WALL_START:Int        = 31; 
+  public static inline var WALL_END:Int        = 48; 
+  
+  
   private static inline var NIGHTMARE_COLOR = 0xA0A0A0;
 
   // 座標変換
@@ -107,14 +110,13 @@ class Field {
 
   // 指定した座標が壁かどうか
   public static function isWall(i:Int, j:Int):Bool {
-    if(_cLayer.get(i, j) == WALL) {
+    if(_cLayer.get(i, j) == WALL || (_cLayer.get(i, j) >= 32 && _cLayer.get(i, j) <= 49 ) ) {
       return true;
     }
-
     return false;
   }
 
-  // 指定した座標が壊せるブロックかどうか
+  // 检测能否破坏
   public static function isBlock(i:Int, j:Int):Bool {
     if(_cLayer.get(i, j) == BLOCK) {
       return true;
@@ -125,23 +127,26 @@ class Field {
 
   // 指定した座標がコリジョンかどうか
   public static function isCollision(i:Int, j:Int):Bool {
-    switch(_cLayer.get(i, j)) {
-      case WALL:
-        // コリジョン 碰撞
-        return true;
-      case WALL2:
-        // 通り抜けできない 我无法通过
-        return true;
-      case BLOCK, DOOR3, DOOR5, DOOR7:
-        // 通れない
-        return true;
-      case -1:
-        // 画面外
-        return true;
-      default:
-        // コリジョンでない 不碰撞
-        return false;
-    }
+	  if (_cLayer.get(i, j) >= 32 ){
+		  return true;
+	  }
+		switch(_cLayer.get(i, j)) {
+		  case WALL:
+			// コリジョン 碰撞
+			return true;
+		  case WALL2:
+			// 通り抜けできない 我无法通过
+			return true;
+		  case BLOCK, DOOR3, DOOR5, DOOR7:
+			// 通れない
+			return true;
+		  case -1:
+			// 画面外
+			return true;
+		  default:
+			// 默认 不碰撞
+			return false;
+		}
   }
 
   // 指定した座標に移動できるかどうか 是否可以移动到指定的坐标
@@ -162,7 +167,7 @@ class Field {
     }
 
     var v = _cLayer.get(i, j);
-    // 一方通行チェック 一种方法检查
+    // 一方通行チェック 一个方向通过
     switch(v) {
       case ONEWAY_LEFT:
         if(dir == Dir.Right) {
@@ -208,7 +213,7 @@ class Field {
   }
 
   /**
-   * 複数あるチップを1つに絞る 挤多个芯片到一个
+   * 複数あるチップを1つに絞る 重置v的数据
    **/
   private static function _randomNarrowOne(layer:Layer2D, v:Int) {
     var pt = layer.searchRandom(v);
@@ -220,7 +225,7 @@ class Field {
   }
 
   /**
-   * プレイヤーの位置や階段をランダムで配置する 随机安排主角的位置和楼梯
+   * プレイヤーの位置や階段をランダムで配置する 随机安排主角的位置或者楼梯
    * @param layer 地形レイヤー地形层
    * @param floor フロア数 层数
    * @param csv Csv管理
@@ -228,9 +233,8 @@ class Field {
   public static function randomize(layer:Layer2D, floor:Int, csv:Csv) {
 
     // 乱数を初期化
-    // FlxRandom.currentSeed = flash.Lib.getTimer();
-	  FlxG.random.currentSeed = flash.Lib.getTimer();
-    // プレイヤーを配置
+	FlxG.random.currentSeed = flash.Lib.getTimer();
+    // 主角配置
     _randomNarrowOne(layer, PLAYER);
     if(layer.exists(PLAYER) == false) {
       var p = layer.searchRandom(NONE);
@@ -245,7 +249,7 @@ class Field {
       layer.setFromFlxPoint(p, GOAL);
       p.put();
     }
-    // ショップの配置
+    // 商店配置
     if(layer.exists(SHOP) == false) {
       // ショップがなければ生成チェック
       if(FlxG.random.bool(Global.getShopAppearCount())) {
@@ -316,6 +320,7 @@ class Field {
 	 * 背景画像を作成する
 	 **/
   public static function createBackground(layer:Layer2D, spr:FlxSprite):FlxSprite {
+	trace(layer.width);
     var w = layer.width * GRID_SIZE;
     var h = layer.height * GRID_SIZE;
     // チップ画像読み込み
@@ -343,16 +348,20 @@ class Field {
         spr.pixels.copyPixels(none.bitmap, rect, pt, false);
       }
 
-      rect.left   = ((v - 1) % 8) * GRID_SIZE;
+      rect.left   = ((v - 1) % mywidth) * GRID_SIZE;
       rect.right  = rect.left + GRID_SIZE;
-      rect.top    = Std.int((v - 1) / 8) * GRID_SIZE;
+      rect.top    = Std.int((v - 1) / mywidth) * GRID_SIZE;
       rect.bottom = rect.top + GRID_SIZE;
 
-      // 床チップ描画
+      // 地形绘制
       switch(v) {
-        case NONE, PLAYER, PASSAGE, ENEMY, ITEM, CAT:
+        case NONE, PLAYER, PASSAGE, ENEMY, ITEM:
+		
+		//TODO::不同的anim
+		case CAT:
+			Pit.start(i, j);
         case SPIKE:
-          // トゲを配置
+          //钉子配置
           Pit.start(i, j);
         case DOOR3, DOOR5, DOOR7:
           Door.start(v, i, j);
@@ -410,6 +419,7 @@ class Field {
   /**
    * 指定の座標の背景を別のチップで塗りつぶす
    **/
+  public static var mywidth = 16;
   public static function drawBackgroundChip(chipid:Int, i:Int, j:Int):Void {
     // 背景スプライトを保持 保持背景精灵
     var spr = _sprBack;
@@ -438,9 +448,9 @@ class Field {
     // 描画関数
     switch(chipid) {
       case GOAL, WALL, HINT, SHOP, WALL2:
-        rect.left   = ((v - 1) % 8) * GRID_SIZE;
+        rect.left   = ((v - 1) % mywidth) * GRID_SIZE;
         rect.right  = rect.left + GRID_SIZE;
-        rect.top    = Std.int((v - 1) / 8) * GRID_SIZE;
+        rect.top    = Std.int((v - 1) / mywidth) * GRID_SIZE;
         rect.bottom = rect.top + GRID_SIZE;
         spr.pixels.copyPixels(chip.bitmap, rect, pt, true);
       case NONE:
@@ -449,7 +459,13 @@ class Field {
         // トゲを配置
         Pit.start(i, j);
     }
-
+	if (chipid >= 32){
+		rect.left   = ((v - 1) % mywidth) * GRID_SIZE;
+        rect.right  = rect.left + GRID_SIZE;
+        rect.top    = Std.int((v - 1) / mywidth) * GRID_SIZE;
+        rect.bottom = rect.top + GRID_SIZE;
+        spr.pixels.copyPixels(chip.bitmap, rect, pt, true);
+	}
     // レイヤーを走査する 扫描图层
     spr.dirty = true;
     //spr.updateFrameData();
@@ -666,7 +682,7 @@ class Field {
   }
 
   /**
-   * A*による経路探索
+   *路线搜索由A *
    **/
   public static function findPath(xstart:Int, ystart:Int, xgoal:Int, ygoal:Int):Array<FlxPoint> {
 
@@ -718,7 +734,7 @@ class Field {
     }
     var px = toWorldX(pt.x);
     var py = toWorldY(pt.y);
-     Particle.start(PType.Ring2, px, py, FlxColor.YELLOW);
+    Particle.start(PType.Ring2, px, py, FlxColor.YELLOW);
     pt.put();
   }
 }

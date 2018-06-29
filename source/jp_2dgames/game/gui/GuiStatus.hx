@@ -23,16 +23,13 @@ import openfl.text.TextFormat;
 import openfl.text.TextFormatAlign;
 import openfl.display.Bitmap;
 import openfl.display.Sprite;
-<<<<<<< Updated upstream
-=======
 import flixel.system.FlxAssets;
->>>>>>> Stashed changes
 /**
  * 主角信息生命等显示
  **/
 class GuiStatus extends FlxGroup {
 
-  /**
+  /** 
    * ヘルプモード
    **/
   public static inline var HELP_NONE:Int = 0; // 非表示
@@ -46,7 +43,7 @@ class GuiStatus extends FlxGroup {
   // ステータス表示座標状态显示坐标
   private static inline var POS_X = 640 + 8;
   private static inline var POS_Y = 4;
-
+ 
   private static inline var BG_W = 640;
   private static inline var BG_H = 24;
 
@@ -58,11 +55,7 @@ class GuiStatus extends FlxGroup {
   private static inline var BAR_H = 10;
 
   // フロア数
-<<<<<<< Updated upstream
-  private static inline var FLOORTEXT_X = 0;
-=======
   private static inline var FLOORTEXT_X = 10;
->>>>>>> Stashed changes
   private static inline var FLOORTEXT_Y = 0;
   // レベルテキスト
   private static inline var LVTEXT_X = FLOORTEXT_X + 32;
@@ -132,54 +125,18 @@ class GuiStatus extends FlxGroup {
   private var _stageW = Lib.current.stage.stageWidth;
 
   private var _txtFloor1:TextField;
-<<<<<<< Updated upstream
-  private var _bgStatus:Sprite;
-=======
   private var _bgStatus:FlxSprite;
->>>>>>> Stashed changes
   //
   /**
 	 * 角色信息ui
 	 **/
-<<<<<<< Updated upstream
-  //**TODO: 所有UI都放到openfl里面显示 (doing)**/
-=======
   //** TODO: 使用系统字体显示 (doing) **/
->>>>>>> Stashed changes
   public function new() {
     super();
 
     _groupOfsY = -BG_H; 
     _group = new FlxSpriteGroup();
 
-<<<<<<< Updated upstream
-    // 背景
-    // _bgStatus = new FlxSprite(0, 0).makeGraphic(BG_W, BG_H, FlxColor.WHITE);
-    // _bgStatus = new FlxSprite(0, 0).makeGraphic(_stageW, BG_H, FlxColor.WHITE);
-    // _bgStatus.color = FlxColor.BLACK;
-    // _bgStatus.alpha = 1;
-    // _bgStatus.x -= 32;
-    // _bgStatus.y -= 32;
-    // _group.add(_bgStatus);
-    _bgStatus = new Sprite();
-    _bgStatus.graphics.beginFill (0x000000, 0.4);
-		_bgStatus.graphics.drawRect (0, 0, _stageW, 32);
-    FlxG.addChildBelowMouse(_bgStatus);
-
-    // フロアテキスト 楼层文本 使用openfl文本 FlxG.addChildBelowMouse()
-    // _txtFloor = new FlxText(FLOORTEXT_X, FLOORTEXT_Y, 128);
-    // _txtFloor.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE_S);
-    // _group.add(_txtFloor);
-    _txtFloor1 = new TextField();
-    _txtFloor1.text = 'openfl的文字';
-    var scoreFormat:TextFormat = new TextFormat("Verdana", 24, 0xFFFFFF, true);
-		scoreFormat.align = TextFormatAlign.CENTER;
-    _txtFloor1.width = 100;
-		_txtFloor1.defaultTextFormat = scoreFormat;
-		_txtFloor1.selectable = false;
-    FlxG.addChildBelowMouse(_txtFloor1);
-    // レベルテキスト 等级文本
-=======
     {
       // 背景
       //_bgStatus = new FlxSprite(0, 0).makeGraphic(BG_W, BG_H, FlxColor.WHITE);
@@ -213,7 +170,6 @@ class GuiStatus extends FlxGroup {
     // FlxG.addChildBelowMouse(_txtFloor1);
 
     // 等级文本
->>>>>>> Stashed changes
     _txtLv = new FlxText(LVTEXT_X, LVTEXT_Y, 128);
     _txtLv.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE_S); 
 	_txtLv.setBorderStyle(FlxTextBorderStyle.OUTLINE,FlxColor.BLACK,1);
@@ -286,36 +242,25 @@ class GuiStatus extends FlxGroup {
     _nightmareInfo = new GuiNightmare();
     this.add(_nightmareInfo);
 
-<<<<<<< Updated upstream
-    // ■ヘルプ菜单
-=======
     // ■ヘルプ菜单帮助菜单
->>>>>>> Stashed changes
     _help = new FlxSpriteGroup();
     // ヘルプ座標(Y)帮助坐标（Y）
     _helpY = FlxG.height - HELP_DY;
     // ヘルプの背景帮助
-    _bgHelp = new FlxSprite(0, 0).makeGraphic(BG_W, HELP_DY, FlxColor.WHITE);
-    _bgHelp.color = FlxColor.BLACK;
+    _bgHelp = new FlxSprite(0, 0).makeGraphic(FlxG.width, HELP_DY, FlxColor.BLACK);
+    // _bgHelp.color = FlxColor.BLACK;
     _bgHelp.alpha = 0.7;
     _help.add(_bgHelp);
     // ヘルプテキスト
     _txtHelp = new FlxText(HELP_X, 0, 400);
     _txtHelp.setFormat(Reg.PATH_FONT, Reg.FONT_SIZE_S);
     _help.add(_txtHelp);
-<<<<<<< Updated upstream
-=======
-	_help.scrollFactor.set(0, 0);
->>>>>>> Stashed changes
+	  _help.scrollFactor.set(0, 0);
     this.add(_help);
 
     // ヘルプテキスト設定
     changeHelp(HELP_KEYINPUT);
-<<<<<<< Updated upstream
-    //背包设置镜头
-=======
     //角色信息设置镜头
->>>>>>> Stashed changes
     _group.forEach(function(spr:FlxSprite){
       spr.scrollFactor.set(0, 0);
       // spr.camera = PlayState.hudCam;
@@ -334,7 +279,7 @@ override public function update(elapsed:Float):Void
 
     // 楼层数设置
     var floor = Global.getFloor();
-    _txtFloor1.text = '${floor}F';
+    _txtFloor.text = '${floor}F';
 
     // 等级文字设置
     var player = cast(FlxG.state, PlayState).player;

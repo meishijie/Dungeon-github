@@ -422,34 +422,20 @@ class PlayState extends FlxState {
     // 物品生成
     var inventory = new Inventory();
     this.add(inventory);
-<<<<<<< Updated upstream
-=======
 	
->>>>>>> Stashed changes
     var camBg = new FlxSprite(-FlxG.width*2 -64,-32);
     add(camBg);
     //镜头管理
     FlxG.camera.antialiasing = false;
-	  
-<<<<<<< Updated upstream
-		hudCam.zoom = 1; // For 1/2 zoom out.
-		hudCam.follow(camBg);
-		hudCam.targetOffset.x = 0;
-    hudCam.targetOffset.y = 0;
-		hudCam.alpha = 1;
+
+    hudCam.zoom               = 1; // For 1/2 zoom out.
+    hudCam.follow(camBg);
+    hudCam.targetOffset.x     = 0;
+    hudCam.targetOffset.y     = 0;
+    hudCam.alpha              = 1;
     hudCam.useBgAlphaBlending = true;
-    hudCam.bgColor = FlxColor.TRANSPARENT;
-		FlxG.cameras.add(hudCam);
-=======
-	hudCam.zoom = 1; // For 1/2 zoom out.
-	hudCam.follow(camBg);
-	hudCam.targetOffset.x = 0;
-    hudCam.targetOffset.y = 0;
-	hudCam.alpha = 1;
-    hudCam.useBgAlphaBlending = true;
-    hudCam.bgColor = FlxColor.TRANSPARENT;
+    hudCam.bgColor            = FlxColor.TRANSPARENT;
 	//FlxG.cameras.add(hudCam);
->>>>>>> Stashed changes
     
     Inventory.instance = inventory;
     inventory.setGuiStatus(_guistatus);
@@ -466,27 +452,26 @@ class PlayState extends FlxState {
     this.add(UnlockMgr.createInstance());
 
     // デバッグ情報設定
-//    FlxG.watch.add(player, "_state");
-//    FlxG.watch.add(player, "_stateprev");
-//    FlxG.watch.add(_seq, "_state");
-//    FlxG.watch.add(_seq, "_stateprev");
-//    FlxG.watch.add(this, "_state");
+    //    FlxG.watch.add(player, "_state");
+    //    FlxG.watch.add(player, "_stateprev");
+    //    FlxG.watch.add(_seq, "_state");
+    //    FlxG.watch.add(_seq, "_stateprev");
+    //    FlxG.watch.add(this, "_state");
 
-//    var playdata = GameData.getPlayData();
-//    FlxG.watch.add(playdata, "playtime");
-//    FlxG.watch.add(playdata, "cntPlay");
-//    FlxG.watch.add(playdata, "cntGameclear");
-//    FlxG.watch.add(playdata, "maxFloor");
-//    FlxG.watch.add(playdata, "maxLv");
-//    FlxG.watch.add(playdata, "maxMoney");
-//    FlxG.watch.add(playdata, "maxItem");
-//    FlxG.watch.add(playdata, "cntEnemyKill");
-//    FlxG.watch.add(playdata, "cntNightmareKill");
+    //    var playdata = GameData.getPlayData();
+    //    FlxG.watch.add(playdata, "playtime");
+    //    FlxG.watch.add(playdata, "cntPlay");
+    //    FlxG.watch.add(playdata, "cntGameclear");
+    //    FlxG.watch.add(playdata, "maxFloor");
+    //    FlxG.watch.add(playdata, "maxLv");
+    //    FlxG.watch.add(playdata, "maxMoney");
+    //    FlxG.watch.add(playdata, "maxItem");
+    //    FlxG.watch.add(playdata, "cntEnemyKill");
+    //    FlxG.watch.add(playdata, "cntNightmareKill");
 
-//    FlxG.debugger.visible = true;
+    //    FlxG.debugger.visible = true;
     FlxG.debugger.toggleKeys = ["ALT"];
-//    FlxG.debugger.drawDebug = true;
-
+    //    FlxG.debugger.drawDebug = true;
     // セーブデータからロードする
     if(Global.isLoadGame()) {
       // ロード実行
@@ -512,8 +497,8 @@ class PlayState extends FlxState {
     _debugItem.alpha = 0.5;
     this.add(_debugItem);
 	
-	//
-	add(_guiKey);
+    //添加屏幕按键
+    add(_guiKey);
   }
 
   /**
@@ -538,22 +523,22 @@ class PlayState extends FlxState {
    */
   override public function destroy():Void {
     UnlockMgr.destroyInstance();
-    Particle.parent = null;
-    ParticleDamage.parent = null;
+    Particle.parent         = null;
+    ParticleDamage.parent   = null;
     ParticleRecovery.parent = null;
-    ParticleSmoke.parent = null;
-    ParticleKira.parent = null;
-    NightmareMgr.instance = null;
-    EffectCloud.parent = null;
-    MagicShot.parent = null;
-    DropItem.parent = null;
-    Enemy.parent = null;
-    Enemy.csv = null;
-    Pit.parent = null;
-    Door.parent = null;
-    Message.instance = null;
-    UIText.instance = null;
-    Inventory.instance = null;
+    ParticleSmoke.parent    = null;
+    ParticleKira.parent     = null;
+    NightmareMgr.instance   = null;
+    EffectCloud.parent      = null;
+    MagicShot.parent        = null;
+    DropItem.parent         = null;
+    Enemy.parent            = null;
+    Enemy.csv               = null;
+    Pit.parent              = null;
+    Door.parent             = null;
+    Message.instance        = null;
+    UIText.instance         = null;
+    Inventory.instance      = null;
     ItemUtil.destroy();
     Field.clear();
     super.destroy();
@@ -564,10 +549,8 @@ class PlayState extends FlxState {
    */
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
-
     // ゲームパッド更新 游戏手柄更新
     Pad.update();
-
     switch(_state) {
       case State.FloorStart:
         if(Key.press.A) {
@@ -595,10 +578,10 @@ class PlayState extends FlxState {
             FlxG.camera.flash(FlxColor.WHITE, 1, function() {
               Snd.playSe("flash", true);
               FlxG.camera.fade(FlxColor.WHITE, 2, false, function() {
-                // スコア送信 成绩发送
-                GameData.sendScore(_player.params.lv);
-                // エンディングへ遷移 场景转换
-                FlxG.switchState(new EndingState());
+                  // スコア送信 成绩发送
+                  GameData.sendScore(_player.params.lv);
+                  // エンディングへ遷移 场景转换
+                  FlxG.switchState(new EndingState());
               });
             }, true);
             _state = State.Gameclear;
@@ -621,21 +604,24 @@ class PlayState extends FlxState {
             Save.erase();
 
             // ゲームオーバーの表示 游戏结束显示
-            var spr = new FlxSprite(0, 240-32).makeGraphic(640, 64, FlxColor.BLACK);
+            var spr = new FlxSprite(0, 180-32).makeGraphic(FlxG.width, 64, FlxColor.BLACK);
             spr.alpha = 0.5;
             spr.scale.y = 0;
             FlxTween.tween(spr.scale, {y:1}, 1, {ease:FlxEase.expoOut});
+            spr.scrollFactor.set(0,0);
             this.add(spr);
-            var txt = new FlxText(216+2, 212+2, 0, 640);
+            var txt = new FlxText(250+2, 150+2, 0, 640);
             txt.setFormat(Reg.PATH_FONT, 48);
             txt.color = FlxColor.BLACK;
             txt.text = "GAME OVER";
             this.add(txt);
+            txt.scrollFactor.set(0,0);
             var txt2 = new FlxText(txt.x-2, txt.y-2, 0, 640);
             txt2.setFormat(Reg.PATH_FONT, 48);
             txt2.color = FlxColor.WHITE;
             txt2.text = "GAME OVER";
             this.add(txt2);
+            txt2.scrollFactor.set(0,0);            
         }
 
       case State.GameoverWait:
@@ -656,7 +642,6 @@ class PlayState extends FlxState {
 
       case State.Gameclear:
         // ゲームクリア 游戏通关
-
       case State.End:
         // おしまい 结束
     }

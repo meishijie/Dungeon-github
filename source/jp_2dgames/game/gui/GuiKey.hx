@@ -38,14 +38,18 @@ class GuiKey extends FlxSpriteGroup
 		bg1.buttonA.onDown.callback = btnADown;
 		bg1.buttonB.onDown.callback = btnBDown;
 				
-		bg1.buttonUp.onUp.callback = btnUpUp;
-		bg1.buttonUp.onDown.callback = btnUpDown;
-		bg1.buttonDown.onUp.callback = btnDownUp;
-		bg1.buttonDown.onDown.callback = btnDownDown;
-		bg1.buttonLeft.onDown.callback = btnLeftDown;
-		bg1.buttonLeft.onUp.callback = btnLeftUp;
-		bg1.buttonRight.onUp.callback = btnRightUp;
-		bg1.buttonRight.onDown.callback = btnRightDown;
+		// bg1.buttonUp.onUp.callback = btnUpUp;
+		// bg1.buttonUp.onDown.callback = btnUpDown;
+		// bg1.buttonUp.onOut.callback = btnUpUp;
+		// bg1.buttonDown.onUp.callback = btnDownUp;
+		// bg1.buttonDown.onDown.callback = btnDownDown;
+		// bg1.buttonDown.onOut.callback = btnDownUp;
+		// bg1.buttonLeft.onDown.callback = btnLeftDown;
+		// bg1.buttonLeft.onUp.callback = btnLeftUp;
+		// bg1.buttonLeft.onOut.callback = btnLeftDown;
+		// bg1.buttonRight.onUp.callback = btnRightUp;
+		// bg1.buttonRight.onDown.callback = btnRightDown;
+		// bg1.buttonRight.onOut.callback = btnRightUp;
 		this.forEach(function(spr:FlxSprite){
 			spr.camera = FlxG.camera;
 		});

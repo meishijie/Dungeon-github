@@ -32,6 +32,7 @@ class PlayState extends FlxState
 		player = new Player(randomEmptyTile.x, randomEmptyTile.y);
 		add(player);
 		
+		
 		var gutter:Int = 10;
 		add(new FlxButton(gutter, gutter, "Back (Space)", back));
 		FlxG.camera.follow(player, TOPDOWN, 1);

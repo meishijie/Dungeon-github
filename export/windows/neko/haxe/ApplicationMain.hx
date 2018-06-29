@@ -57,13 +57,8 @@ class ApplicationMain {
 				
 				#if mobile
 				
-<<<<<<< Updated upstream
 				forceWidth = 800;
-				forceHeight = 420;
-=======
-				forceWidth = 960;
-				forceHeight = 640;
->>>>>>> Stashed changes
+				forceHeight = 400;
 				
 				container = new flash.display.Sprite ();
 				barA = new flash.display.Sprite ();
@@ -132,11 +127,7 @@ class ApplicationMain {
 				}
 				
 			},
-<<<<<<< Updated upstream
-			800, 420, 
-=======
-			960, 640, 
->>>>>>> Stashed changes
+			800, 400, 
 			60, 
 			0,
 			(true ? flash.Lib.HARDWARE : 0) |
@@ -257,21 +248,13 @@ class ScaledStage extends flash.display.Stage {
 	
 	private override function get_stageHeight ():Int {
 		
-<<<<<<< Updated upstream
-		return 420;
-=======
-		return 640;
->>>>>>> Stashed changes
+		return 400;
 	
 	}
 	
 	private override function get_stageWidth ():Int {
 		
-<<<<<<< Updated upstream
 		return 800;
-=======
-		return 960;
->>>>>>> Stashed changes
 	
 	}
 	
@@ -342,19 +325,11 @@ class ApplicationMain {
 		wx.App.boot (function () {
 			
 			
-<<<<<<< Updated upstream
-			frame = wx.Frame.create (null, null, "FlixelRL", null, { width: 800, height: 420 });
+			frame = wx.Frame.create (null, null, "FlixelRL", null, { width: 800, height: 400 });
 			
 			
 			#if openfl
-			var stage = wx.NMEStage.create (frame, null, null, { width: 800, height: 420 });
-=======
-			frame = wx.Frame.create (null, null, "FlixelRL", null, { width: 960, height: 640 });
-			
-			
-			#if openfl
-			var stage = wx.NMEStage.create (frame, null, null, { width: 960, height: 640 });
->>>>>>> Stashed changes
+			var stage = wx.NMEStage.create (frame, null, null, { width: 800, height: 400 });
 			#end
 			
 			var hasMain = false;
@@ -540,11 +515,7 @@ class ApplicationMain {
 		
 		config = {
 			
-<<<<<<< Updated upstream
-			build: "33",
-=======
-			build: "454",
->>>>>>> Stashed changes
+			build: "191",
 			company: "HaxeFlixel",
 			file: "RogueLike",
 			fps: 60,
@@ -562,21 +533,13 @@ class ApplicationMain {
 					display: 0,
 					fullscreen: false,
 					hardware: true,
-<<<<<<< Updated upstream
-					height: 420,
-=======
-					height: 640,
->>>>>>> Stashed changes
+					height: 400,
 					parameters: "{}",
 					resizable: true,
 					stencilBuffer: false,
 					title: "FlixelRL",
 					vsync: true,
-<<<<<<< Updated upstream
 					width: 800,
-=======
-					width: 960,
->>>>>>> Stashed changes
 					x: null,
 					y: null
 				},
@@ -586,11 +549,7 @@ class ApplicationMain {
 		
 		#if (js && html5)
 		#if (munit || utest)
-<<<<<<< Updated upstream
-		openfl.Lib.embed (null, 800, 420, "null");
-=======
-		openfl.Lib.embed (null, 960, 640, "null");
->>>>>>> Stashed changes
+		openfl.Lib.embed (null, 800, 400, "null");
 		#end
 		#else
 		create ();

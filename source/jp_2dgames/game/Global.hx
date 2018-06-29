@@ -127,7 +127,7 @@ class Global {
   public static function getFloorMap():String {
     _mapid = _floor;
     if(_nightmareDefeat) {
-      // ナイトメアを倒している 放倒的人
+      // 打到boss就进入奖励层
       _mapid = 500;
     }
     var map = TextUtil.fillZero(_mapid, 3);

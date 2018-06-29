@@ -15,7 +15,7 @@ import flixel.util.FlxSave;
 //#end
 
 /**
- * グローバルゲームデータ
+ * グローバルゲームデータ 全局数据
  **/
 class GameData {
 
@@ -29,7 +29,7 @@ class GameData {
     // 名前を自動設定
     var generator = new NameGenerator();
     _name = generator.get();
-    // フラグ作成
+    // フラグ作成 标志创建
     _bits = [for(i in 0...BIT_MAX) false];
     // ハイスコア
     _hiscore = 0;
@@ -50,7 +50,7 @@ class GameData {
     _name = s;
   }
 
-  // 汎用フラグ
+  // 汎用フラグ通用标志
   private static inline var BIT_MAX:Int = 32;
 
   // フラグ番号
@@ -210,7 +210,7 @@ class GameData {
 
       // ■フラグ
       if(saveutil.data.bits == null) {
-        // フラグデータがない場合は作成
+        //  如果没有标志数据，则创建
         _bits = [for(i in 0...BIT_MAX) false];
       }
       else {
